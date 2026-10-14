@@ -1,0 +1,1480 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Burocracia S.A.</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=IBM+Plex+Mono:wght@400;600&family=Public+Sans:wght@400;600;700;800&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+/* Layout: oficina pública — papel de seguridad verdoso, tinta de sello azul, rojo de infracción.
+   Proyector = tablero de ventanilla a pantalla completa; celulares = formatos oficiales apilados. */
+:root{
+  --paper:#EDF1EA; --panel:#FFFFFF; --panel-2:#F4F7F1; --ink:#17202A; --muted:#55645E; --rule:#CAD3C7;
+  --seal:#28368F; --seal-soft:#DFE4F7; --stamp:#B42029; --stamp-soft:#F8DCDE;
+  --ok:#1C7246; --ok-soft:#D8EEE0; --warn:#8F5500; --warn-soft:#F6E6C8;
+  --o1:#2a78d6; --o2:#eb6834; --o3:#1baf7a; --o4:#eda100; --o5:#e87ba4;
+  --shadow:0 1px 0 rgba(23,32,42,.06), 0 6px 18px -10px rgba(23,32,42,.25);
+  --f-display:'Big Shoulders Display','Arial Narrow',Impact,sans-serif;
+  --f-body:'Public Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+  --r:6px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#0F1417; --panel:#182027; --panel-2:#1D262E; --ink:#E5EAE3; --muted:#95A39C; --rule:#2C3841;
+  --seal:#9AA8FF; --seal-soft:#252D55; --stamp:#FF6B6B; --stamp-soft:#4A1D22;
+  --ok:#52C98D; --ok-soft:#163829; --warn:#F0B347; --warn-soft:#3D2E12;
+  --o1:#3987e5; --o2:#d95926; --o3:#199e70; --o4:#c98500; --o5:#d55181;
+  --shadow:0 1px 0 rgba(0,0,0,.3), 0 8px 22px -12px rgba(0,0,0,.7);
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --paper:#0F1417; --panel:#182027; --panel-2:#1D262E; --ink:#E5EAE3; --muted:#95A39C; --rule:#2C3841;
+  --seal:#9AA8FF; --seal-soft:#252D55; --stamp:#FF6B6B; --stamp-soft:#4A1D22;
+  --ok:#52C98D; --ok-soft:#163829; --warn:#F0B347; --warn-soft:#3D2E12;
+  --o1:#3987e5; --o2:#d95926; --o3:#199e70; --o4:#c98500; --o5:#d55181;
+  --shadow:0 1px 0 rgba(0,0,0,.3), 0 8px 22px -12px rgba(0,0,0,.7);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+html,body{min-height:100%}
+body{
+  background:var(--paper); color:var(--ink); font-family:var(--f-body); font-size:15px; line-height:1.5;
+  background-image:
+    repeating-linear-gradient(135deg, color-mix(in srgb, var(--seal) 5%, transparent) 0 1px, transparent 1px 10px),
+    repeating-linear-gradient(45deg, color-mix(in srgb, var(--seal) 3%, transparent) 0 1px, transparent 1px 14px);
+}
+h1,h2,h3{font-family:var(--f-display); font-weight:800; letter-spacing:.01em; line-height:1.05; text-wrap:balance; margin:0}
+p{margin:0}
+button,input,select,textarea{font:inherit; color:inherit}
+:focus-visible{outline:3px solid var(--seal); outline-offset:2px}
+.mono{font-family:var(--f-mono)}
+.muted{color:var(--muted)}
+.label{font-size:11px; text-transform:uppercase; letter-spacing:.12em; font-weight:700; color:var(--muted)}
+
+/* Top bar */
+.topbar{display:flex; align-items:center; gap:12px; padding-block:10px; padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px)); border-bottom:1px solid var(--rule); background:color-mix(in srgb, var(--panel) 85%, transparent); position:sticky; top:env(safe-area-inset-top,0px); z-index:20; backdrop-filter:blur(6px)}
+.brand{display:flex; align-items:center; gap:10px; min-width:0}
+.brand svg{width:34px; height:34px; flex:none}
+.brand b{font-family:var(--f-display); font-size:22px; font-weight:900; letter-spacing:.02em; line-height:1}
+.brand small{display:block; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); font-weight:700}
+.topbar .spacer{flex:1}
+.chip{display:inline-flex; align-items:center; gap:6px; padding:3px 9px; border-radius:999px; font-size:12px; font-weight:700; border:1px solid var(--rule); background:var(--panel); white-space:nowrap}
+.chip .dot{width:8px; height:8px; border-radius:50%; background:currentColor}
+.chip.live{color:var(--ok); border-color:color-mix(in srgb, var(--ok) 40%, transparent)}
+.chip.local{color:var(--warn); border-color:color-mix(in srgb, var(--warn) 40%, transparent)}
+.chip.err{color:var(--stamp)}
+body[data-role="proj"] .topbar{display:none}
+
+#view{padding-block:20px 60px; padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px))}
+body[data-role="proj"] #view{padding:0}
+
+/* Buttons */
+.btn{appearance:none; border:1px solid var(--rule); background:var(--panel); color:var(--ink); padding:9px 14px; border-radius:var(--r); font-weight:700; cursor:pointer; line-height:1.2; display:inline-flex; align-items:center; justify-content:center; gap:8px; text-align:center}
+.btn:hover{border-color:var(--seal)}
+.btn:disabled{opacity:.45; cursor:not-allowed}
+.btn.primary{background:var(--seal); border-color:var(--seal); color:var(--panel)}
+.btn.danger{background:var(--stamp); border-color:var(--stamp); color:var(--panel)}
+.btn.ok{background:var(--ok); border-color:var(--ok); color:var(--panel)}
+.btn.ghost{background:transparent}
+.btn.big{padding:14px 18px; font-size:17px; width:100%}
+.btn.sm{padding:5px 9px; font-size:13px}
+.btn.on{outline:2px solid var(--seal); outline-offset:1px}
+.row{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+.stack{display:grid; gap:12px}
+.card{background:var(--panel); border:1px solid var(--rule); border-radius:var(--r); padding:16px; box-shadow:var(--shadow); min-width:0}
+.card > h3{font-size:22px; margin-bottom:10px}
+.card .sub{font-size:13px; color:var(--muted); margin-top:-6px; margin-bottom:12px}
+
+/* Home */
+.home{max-width:1080px; margin:0 auto; display:grid; gap:28px}
+.hero{display:grid; grid-template-columns:auto 1fr; gap:24px; align-items:center}
+.hero svg{width:132px; height:132px}
+.hero h1{font-size:clamp(46px, 8vw, 88px); font-weight:900; text-transform:uppercase; letter-spacing:-.005em}
+.hero .lede{max-width:62ch; font-size:17px; margin-top:8px}
+.levels{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:0; border:1px solid var(--rule); border-radius:var(--r); background:var(--panel); overflow:hidden}
+.levels > div{padding:14px 16px; border-left:1px solid var(--rule); min-width:0}
+.levels > div:first-child{border-left:0}
+.levels b{font-family:var(--f-display); font-size:24px; display:block; line-height:1.1}
+.levels .pts{font-family:var(--f-mono); font-size:13px; color:var(--seal); font-weight:600}
+.roles{display:grid; grid-template-columns:repeat(auto-fill, minmax(230px,1fr)); gap:14px}
+.role{display:flex; flex-direction:column; gap:10px}
+.role h3{font-size:26px}
+.role p{font-size:14px; color:var(--muted); flex:1}
+.office-picks{display:grid; grid-template-columns:repeat(5,1fr); gap:6px}
+.office-picks .btn{padding:8px 0; border-width:2px}
+.note{font-size:13px; color:var(--muted); max-width:70ch}
+.swatch{display:inline-block; width:12px; height:12px; border-radius:3px; flex:none}
+
+/* Phone views */
+.phone{max-width:560px; margin:0 auto; display:grid; gap:14px}
+.phead{display:grid; grid-template-columns:1fr auto; gap:4px 12px; align-items:end; padding:14px 16px; background:var(--panel); border:1px solid var(--rule); border-radius:var(--r); border-top:6px solid var(--oc, var(--seal)); box-shadow:var(--shadow)}
+.phead .who{font-family:var(--f-display); font-size:26px; font-weight:800; line-height:1.05}
+.phead .office{font-size:13px; color:var(--muted); font-weight:600}
+.phead .clock{font-family:var(--f-display); font-size:40px; font-weight:900; font-variant-numeric:tabular-nums; line-height:1; text-align:right}
+.phead .rlabel{font-size:12px; font-weight:700; color:var(--seal); text-align:right; letter-spacing:.06em; text-transform:uppercase}
+.banner{border:1px dashed var(--seal); background:var(--seal-soft); padding:10px 12px; border-radius:var(--r); font-size:14px}
+.banner b{font-family:var(--f-mono); font-size:12px; letter-spacing:.06em}
+.secret{border:2px solid var(--ink); background:var(--panel); padding:12px 14px; border-radius:var(--r); position:relative}
+.secret .label{color:var(--ink)}
+.waiting{text-align:center; padding:28px 16px}
+.waiting h2{font-size:34px; margin-bottom:8px}
+
+/* Formatos oficiales */
+.formato{background:var(--panel); border:1.5px solid var(--ink); border-radius:2px; box-shadow:var(--shadow); min-width:0}
+.formato-head{display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:center; padding:10px 12px; border-bottom:1.5px solid var(--ink)}
+.formato-head .code{font-family:var(--f-mono); font-weight:600; font-size:15px; border:1.5px solid var(--ink); padding:4px 8px; letter-spacing:.04em; white-space:nowrap}
+.formato-head b{display:block; font-size:15px; line-height:1.25}
+.formato-head small{display:block; font-size:12px; color:var(--muted)}
+.formato .rad{grid-column:1/-1; font-family:var(--f-mono); font-size:12px; color:var(--muted)}
+.formato .rad b{display:inline; font-size:12px; color:var(--ink)}
+.formato fieldset{border:0; margin:0; padding:12px; display:grid; gap:12px; min-width:0}
+.field{display:grid; gap:4px}
+.field label{font-size:13px; font-weight:700}
+.field .hint{font-size:12px; color:var(--muted)}
+.field input,.field select,.field textarea{width:100%; border:0; border-bottom:1.5px solid var(--ink); background:var(--panel-2); padding:9px 10px; border-radius:2px 2px 0 0; font-family:var(--f-mono); font-size:15px}
+.field textarea{min-height:70px; resize:vertical; font-family:var(--f-body)}
+.check{display:grid; grid-template-columns:22px 1fr; gap:8px; align-items:start; font-size:14px; cursor:pointer}
+.check input{width:20px; height:20px; margin:1px 0 0; accent-color:var(--seal)}
+.errs:empty{display:none}
+.errs{border-left:4px solid var(--stamp); background:var(--stamp-soft); padding:10px 12px; font-size:13px; display:grid; gap:6px}
+.errs b{color:var(--stamp)}
+.quote{font-family:var(--f-mono); font-size:14px; background:var(--panel-2); border:1px dashed var(--muted); padding:10px; user-select:none; -webkit-user-select:none}
+.dl{display:grid; grid-template-columns:max-content 1fr; gap:3px 12px; font-size:13px; padding:10px 12px}
+.dl dt{color:var(--muted)}
+.dl dd{margin:0; font-family:var(--f-mono); min-width:0; overflow-wrap:anywhere}
+.steps{display:flex; gap:4px; padding:0 12px 0; margin-top:10px}
+.steps span{flex:1; height:5px; background:var(--rule); border-radius:3px}
+.steps span.done{background:var(--seal)}
+.tapzone{display:grid; gap:12px; text-align:center}
+.tap{appearance:none; border:0; border-radius:50%; width:min(70vw, 260px); aspect-ratio:1; max-width:100%; margin:8px auto; background:var(--oc, var(--seal)); color:#fff; font-family:var(--f-display); font-size:34px; font-weight:900; line-height:1; cursor:pointer; box-shadow:0 10px 0 color-mix(in srgb, var(--oc, var(--seal)) 60%, #000), var(--shadow); text-transform:uppercase; text-shadow:0 1px 2px rgba(0,0,0,.35)}
+.tap:active{transform:translateY(6px); box-shadow:0 4px 0 color-mix(in srgb, var(--oc, var(--seal)) 60%, #000)}
+.tap:disabled{filter:grayscale(.8); opacity:.5}
+.bigcount{font-family:var(--f-display); font-size:64px; font-weight:900; line-height:1}
+
+/* Status chips */
+.st{display:inline-flex; padding:2px 8px; border-radius:3px; font-size:12px; font-weight:700; border:1px solid currentColor; white-space:nowrap}
+.st.wait{color:var(--warn); background:var(--warn-soft)}
+.st.ok{color:var(--ok); background:var(--ok-soft)}
+.st.bad{color:var(--stamp); background:var(--stamp-soft)}
+.st.info{color:var(--seal); background:var(--seal-soft)}
+.tlist{display:grid; gap:8px}
+.titem{display:grid; grid-template-columns:1fr auto; gap:4px 10px; align-items:center; padding:10px 12px; background:var(--panel); border:1px solid var(--rule); border-radius:var(--r); min-width:0}
+.titem .rad{font-family:var(--f-mono); font-size:13px; font-weight:600}
+.titem .meta{grid-column:1/-1; font-size:12px; color:var(--muted)}
+.sect-title{font-family:var(--f-display); font-size:22px; font-weight:800; margin:6px 0 2px}
+
+/* Moderator */
+.mod{max-width:1280px; margin:0 auto; display:grid; gap:16px}
+.mod-grid{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px}
+.rtabs{display:grid; grid-template-columns:repeat(6, minmax(0,1fr)); gap:6px}
+.rtabs .btn{flex-direction:column; gap:0; padding:8px 4px}
+.rtabs .btn small{font-weight:600; font-size:11px; opacity:.8}
+.rtabs .btn.cur{background:var(--seal); color:var(--panel); border-color:var(--seal)}
+.mclock{font-family:var(--f-display); font-size:64px; font-weight:900; font-variant-numeric:tabular-nums; line-height:1}
+.round-ctl{display:grid; grid-template-columns:auto 1fr; gap:16px 22px; align-items:center; margin-top:14px}
+.tbl-wrap{overflow-x:auto}
+table.score{width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums; font-size:14px}
+table.score th{font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); text-align:right; padding:6px 8px; border-bottom:1.5px solid var(--ink); white-space:nowrap}
+table.score th:first-child, table.score td:first-child{text-align:left}
+table.score td{padding:8px; border-bottom:1px solid var(--rule); text-align:right; white-space:nowrap}
+table.score td.total{font-family:var(--f-display); font-size:22px; font-weight:900}
+.oname{display:flex; align-items:center; gap:8px; font-weight:700; white-space:normal; min-width:160px}
+.pen-grid{display:grid; gap:8px}
+.pen-row{display:grid; grid-template-columns:minmax(0,1fr) repeat(4, minmax(0,1fr)); gap:6px; align-items:center}
+.pen-row .oname{min-width:0; font-size:13px}
+.pen-row .btn{font-size:12px; padding:7px 4px; border-color:color-mix(in srgb, var(--stamp) 45%, var(--rule)); color:var(--stamp); background:var(--panel)}
+.pen-row .btn:hover{background:var(--stamp-soft)}
+.pen-head{font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; font-weight:700}
+.circ-presets{display:grid; gap:8px}
+.circ-btn{display:grid; grid-template-columns:auto 1fr; gap:2px 10px; text-align:left; justify-content:stretch; align-items:start}
+.circ-btn .code{font-family:var(--f-mono); grid-row:span 2}
+.circ-btn small{font-weight:500; color:var(--muted); font-size:12px}
+.qrow{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px; align-items:center; padding:6px 0; border-bottom:1px solid var(--rule)}
+.qopts{display:flex; gap:4px}
+.qopts .btn{width:36px; padding:6px 0}
+.qopts .btn.sel{background:var(--seal); color:var(--panel)}
+.office-filter{display:flex; gap:6px; flex-wrap:wrap}
+.office-filter .btn{border-width:2px}
+.confirm-row{display:flex; gap:8px; flex-wrap:wrap; align-items:center; background:var(--stamp-soft); border:1px solid var(--stamp); padding:10px; border-radius:var(--r)}
+
+/* Maintenance overlay (phones) */
+#maint{position:fixed; inset:0; z-index:60; background:color-mix(in srgb, var(--paper) 94%, transparent); display:grid; place-items:center; text-align:center; padding:24px max(16px, env(safe-area-inset-left,0px))}
+#maint .box{max-width:420px; display:grid; gap:12px; justify-items:center}
+#maint h2{font-size:40px}
+.spinner{width:56px; height:56px; border-radius:50%; border:6px solid var(--rule); border-top-color:var(--seal); animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Toasts */
+#toasts{position:fixed; left:50%; transform:translateX(-50%); bottom:calc(16px + env(safe-area-inset-bottom,0px)); z-index:90; display:grid; gap:8px; width:min(520px, calc(100% - 32px))}
+.toast{background:var(--ink); color:var(--paper); padding:10px 14px; border-radius:var(--r); font-size:14px; box-shadow:var(--shadow); animation:tin .25s ease-out}
+.toast.bad{background:var(--stamp); color:#fff}
+.toast.ok{background:var(--ok); color:#fff}
+@keyframes tin{from{opacity:0; transform:translateY(8px)}}
+
+/* ===== Projector ===== */
+.proj{min-height:100vh; display:grid; grid-template-rows:auto 1fr auto; position:relative}
+.p-head{display:grid; grid-template-columns:auto 1fr auto; gap:24px; align-items:center; padding:18px max(28px, env(safe-area-inset-left,0px)) 14px; border-bottom:2px solid var(--ink); background:var(--panel)}
+.p-brand{display:flex; gap:14px; align-items:center}
+.p-brand svg{width:64px; height:64px}
+.p-brand b{font-family:var(--f-display); font-size:38px; font-weight:900; line-height:.95; display:block; text-transform:uppercase}
+.p-brand small{font-size:12px; letter-spacing:.18em; text-transform:uppercase; font-weight:700; color:var(--muted)}
+.p-round{text-align:center}
+.p-round .lvl{font-family:var(--f-mono); font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:var(--seal); font-weight:600}
+.p-round .name{font-family:var(--f-display); font-size:clamp(28px, 3.4vw, 52px); font-weight:900; line-height:1}
+.p-timer{font-family:var(--f-display); font-weight:900; font-size:clamp(64px, 9vw, 150px); line-height:.85; font-variant-numeric:tabular-nums; text-align:right; min-width:3.2ch}
+.p-timer.low{color:var(--stamp)}
+.p-timer small{display:block; font-size:14px; font-family:var(--f-body); font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); line-height:1.3}
+.p-body{padding:22px max(28px, env(safe-area-inset-left,0px)); min-height:0}
+.board{display:grid; grid-template-columns:minmax(0,1.7fr) minmax(0,1fr); gap:22px; height:100%}
+.lb{display:grid; gap:10px; align-content:start}
+.lb-row{display:grid; grid-template-columns:52px minmax(0,1fr) 120px 120px; gap:16px; align-items:center; padding:12px 18px; background:var(--panel); border:1px solid var(--rule); border-left:10px solid var(--oc); border-radius:var(--r); box-shadow:var(--shadow); transition:transform .4s}
+.lb-row .rank{font-family:var(--f-display); font-size:44px; font-weight:900; color:var(--muted); line-height:1}
+.lb-row.lead .rank{color:var(--ink)}
+.lb-row .nm{font-weight:800; font-size:clamp(16px, 1.6vw, 24px); line-height:1.15}
+.lb-row .nm small{display:block; font-weight:600; font-size:13px; color:var(--muted)}
+.lb-row .num{text-align:right}
+.lb-row .num b{font-family:var(--f-display); font-size:clamp(34px, 3.6vw, 58px); font-weight:900; line-height:.9; font-variant-numeric:tabular-nums; display:block}
+.lb-row .num small{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:700}
+.lb-row .bump{animation:bump .6s}
+@keyframes bump{40%{transform:scale(1.25); color:var(--ok)}}
+.side{display:grid; gap:16px; align-content:start}
+.rulecard{border:2px solid var(--ink); background:var(--panel); padding:16px 18px; border-radius:2px}
+.rulecard p{font-size:clamp(15px, 1.35vw, 20px); line-height:1.4}
+.turno{display:grid; grid-template-columns:1fr auto; align-items:center; background:var(--ink); color:var(--paper); padding:14px 18px; border-radius:var(--r)}
+.turno b{font-family:var(--f-display); font-size:72px; font-weight:900; line-height:.9; font-variant-numeric:tabular-nums}
+.feed{display:grid; gap:6px}
+.feed div{display:grid; grid-template-columns:auto 1fr; gap:10px; align-items:baseline; background:var(--panel); border:1px solid var(--rule); padding:8px 12px; border-radius:var(--r); font-size:15px; animation:tin .3s}
+.feed .mono{font-size:13px; font-weight:600}
+.p-ticker{background:var(--seal); color:var(--panel); padding:10px max(28px, env(safe-area-inset-left,0px)); font-size:18px; font-weight:600; display:flex; gap:14px; align-items:center}
+.p-ticker b{font-family:var(--f-mono); white-space:nowrap}
+.p-ticker.maint{background:var(--warn); color:#111}
+.p-tools{position:fixed; right:max(12px, env(safe-area-inset-right,0px)); bottom:calc(12px + env(safe-area-inset-bottom,0px)); display:flex; gap:6px; z-index:40; opacity:.35; transition:opacity .2s}
+.p-tools:hover,.p-tools:focus-within{opacity:1}
+.lobby{display:grid; grid-template-columns:minmax(0,1.4fr) minmax(0,1fr); gap:28px; align-items:start}
+.lobby h2{font-size:clamp(40px, 5vw, 76px); font-weight:900; text-transform:uppercase}
+.lobby .how{display:grid; gap:12px; margin-top:16px}
+.lobby .how div{display:grid; grid-template-columns:110px 1fr; gap:14px; align-items:baseline; font-size:clamp(15px, 1.4vw, 20px); padding:10px 0; border-top:1px solid var(--rule)}
+.lobby .how b{font-family:var(--f-display); font-size:26px; font-weight:800}
+.lobby .offices{display:grid; gap:8px}
+.lobby .offices div{display:flex; gap:12px; align-items:center; background:var(--panel); border:1px solid var(--rule); border-left:10px solid var(--oc); padding:10px 14px; border-radius:var(--r); font-weight:700; font-size:clamp(15px,1.4vw,20px)}
+.qrbox{background:#fff; padding:12px; border-radius:var(--r); display:inline-block; border:1px solid var(--rule)}
+.qrbox img,.qrbox canvas{display:block; width:200px !important; height:200px !important}
+
+/* Quiz on projector */
+.pquiz{display:grid; gap:20px; max-width:1400px; margin:0 auto}
+.pquiz .qn{font-family:var(--f-mono); color:var(--seal); letter-spacing:.12em; text-transform:uppercase; font-weight:600}
+.pquiz h2{font-size:clamp(32px, 4vw, 64px); font-weight:800; line-height:1.05}
+.qgrid{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px}
+.qopt{display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:center; padding:18px 20px; background:var(--panel); border:2px solid var(--rule); border-radius:var(--r); font-size:clamp(18px, 1.8vw, 28px); font-weight:600}
+.qopt .lt{font-family:var(--f-display); font-size:44px; font-weight:900; line-height:1; color:var(--seal)}
+.qopt.right{border-color:var(--ok); background:var(--ok-soft)}
+.qopt.wrong{opacity:.4}
+.qfoot{display:grid; grid-template-columns:auto 1fr; gap:22px; align-items:center}
+.qcount{font-family:var(--f-display); font-size:96px; font-weight:900; line-height:.9; font-variant-numeric:tabular-nums; min-width:2ch}
+.answered{display:flex; gap:10px; flex-wrap:wrap}
+.answered span{display:inline-flex; gap:6px; align-items:center; padding:6px 12px; border-radius:999px; border:2px solid var(--rule); font-weight:700; background:var(--panel); opacity:.45}
+.answered span.yes{opacity:1; border-color:var(--oc)}
+.why{border-left:6px solid var(--ok); background:var(--panel); padding:14px 18px; font-size:clamp(16px, 1.5vw, 22px)}
+
+/* Overlays on projector */
+.ov{position:fixed; inset:0; z-index:70; display:grid; place-items:center; background:color-mix(in srgb, var(--ink) 55%, transparent); padding:24px; animation:fade .2s}
+@keyframes fade{from{opacity:0}}
+.circ-doc{background:var(--panel); color:var(--ink); max-width:900px; width:100%; border:2px solid var(--ink); padding:34px 40px; position:relative; box-shadow:0 30px 80px -20px rgba(0,0,0,.5); animation:drop .5s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes drop{from{transform:translateY(-40px) rotate(-2deg); opacity:0}}
+.circ-doc .label{color:var(--seal)}
+.circ-doc h2{font-size:clamp(44px, 6vw, 84px); font-weight:900; text-transform:uppercase}
+.circ-doc p.txt{font-size:clamp(20px, 2.2vw, 32px); margin:18px 0; line-height:1.35}
+.circ-doc .firma{font-family:var(--f-mono); font-size:16px; border-top:1px solid var(--ink); padding-top:10px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap}
+.stampbox{display:grid; justify-items:center; gap:18px; text-align:center}
+.stamp{font-family:var(--f-display); font-weight:900; color:var(--stamp); border:8px double var(--stamp); padding:10px 34px; text-transform:uppercase; letter-spacing:.04em; line-height:1; transform:rotate(-8deg); background:color-mix(in srgb, var(--panel) 80%, transparent); mix-blend-mode:normal}
+.stamp.big{font-size:clamp(70px, 11vw, 170px); animation:slam .45s cubic-bezier(.3,1.6,.5,1)}
+.stamp .sub{display:block; font-size:.28em; letter-spacing:.08em; margin-top:6px}
+@keyframes slam{from{transform:scale(2.6) rotate(-14deg); opacity:0}}
+.stamp-reason{background:var(--panel); color:var(--ink); padding:14px 24px; border-radius:var(--r); font-size:clamp(20px, 2.2vw, 32px); font-weight:700}
+.stamp-reason small{display:block; font-size:.6em; color:var(--stamp); text-transform:uppercase; letter-spacing:.1em}
+.timeup{position:absolute; inset:0; display:grid; place-items:center; pointer-events:none; z-index:30}
+
+/* ===== Informe del Estado ===== */
+.report{position:relative; height:calc(100vh - 150px); min-height:520px; display:grid; grid-template-rows:auto 1fr auto; gap:14px; overflow:hidden}
+.report.fixed{position:fixed; inset:0; height:auto; z-index:80; background:var(--paper); padding:20px max(24px, env(safe-area-inset-left,0px)); min-height:0}
+.rp-top{display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap}
+.rp-top .demo{background:var(--warn-soft); color:var(--warn); border:1px solid var(--warn); padding:4px 10px; font-weight:800; font-size:13px; letter-spacing:.06em; text-transform:uppercase; border-radius:3px}
+.rp-stage{position:relative; min-height:0}
+.scene{position:absolute; inset:0; display:grid; align-content:start; gap:14px; animation:scin .6s ease-out; overflow:auto}
+@keyframes scin{from{opacity:0; transform:translateY(14px)}}
+.scene h2{font-size:clamp(34px, 4.4vw, 72px); font-weight:900; line-height:1}
+.scene .kicker{font-family:var(--f-mono); font-size:15px; letter-spacing:.12em; text-transform:uppercase; color:var(--seal); font-weight:600}
+.scene .lead{font-size:clamp(16px, 1.6vw, 24px); max-width:60ch}
+.rp-ctl{display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap}
+.dots{display:flex; gap:6px}
+.dots span{width:28px; height:5px; border-radius:3px; background:var(--rule)}
+.dots span.on{background:var(--seal)}
+.legend{display:flex; gap:8px 18px; flex-wrap:wrap; font-size:clamp(13px,1.2vw,17px); font-weight:600}
+.legend span{display:inline-flex; gap:7px; align-items:center}
+.chart{width:100%; height:auto; max-height:44vh; overflow:visible}
+.chart .grid{stroke:var(--rule); stroke-width:1}
+.chart .base{stroke:var(--ink); stroke-width:1.5}
+.chart .tick{fill:var(--muted); font-size:14px; font-family:var(--f-mono)}
+.chart .val{fill:var(--ink); font-size:20px; font-weight:800; font-family:var(--f-display); animation:fade .4s both; animation-delay:calc(var(--d) + .7s)}
+.chart .otag{fill:var(--muted); font-size:13px; font-family:var(--f-mono)}
+.chart .glabel{fill:var(--ink); font-size:20px; font-weight:800; font-family:var(--f-display)}
+.chart .gsub{fill:var(--muted); font-size:14px}
+.chart .bar path{transform-box:fill-box; transform-origin:50% 100%; animation:grow 1s cubic-bezier(.2,.8,.2,1) both; animation-delay:var(--d)}
+@keyframes grow{from{transform:scaleY(0)}}
+.chart .line{fill:none; stroke:var(--seal); stroke-width:3; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:var(--len); stroke-dashoffset:var(--len); animation:draw 2.4s .4s ease-in-out forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.chart .pt{fill:var(--seal); stroke:var(--panel); stroke-width:3; animation:fade .3s both}
+.chart .ptv{fill:var(--ink); font-family:var(--f-display); font-weight:900; font-size:30px; animation:fade .3s both}
+.chart .ann{fill:var(--muted); font-size:15px; animation:fade .4s both}
+.chart .annb{fill:var(--ink); font-size:19px; font-weight:800; font-family:var(--f-display); animation:fade .4s both}
+.tiles{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:14px}
+.tile{background:var(--panel); border:1px solid var(--rule); border-radius:var(--r); padding:14px 16px; min-width:0}
+.tile b{font-family:var(--f-display); font-size:clamp(32px, 3.4vw, 58px); font-weight:900; line-height:.95; display:block; font-variant-numeric:tabular-nums}
+.tile span{font-size:clamp(13px, 1.2vw, 17px); color:var(--muted); font-weight:600}
+.pv{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:18px; align-items:end}
+.pv-col{display:grid; gap:8px; justify-items:center; min-width:0}
+.pv-stacks{display:flex; gap:22px; align-items:flex-end; height:min(26vh, 240px)}
+.tower{position:relative; width:74px; height:100%}
+.sheet{position:absolute; left:0; width:74px; height:9px; background:var(--panel); border:1px solid var(--muted); border-radius:1px; animation:sheet .35s both}
+@keyframes sheet{from{opacity:0; transform:translateY(-60px) rotate(8deg)}}
+.pile{display:flex; flex-wrap:wrap-reverse; width:96px; gap:4px; align-content:flex-start}
+.pass{width:20px; height:28px; border-radius:2px 4px 4px 2px; background:var(--seal); position:relative; animation:pop .3s both}
+.pass::after{content:''; position:absolute; left:5px; right:5px; top:9px; height:8px; border-radius:50%; border:1.5px solid color-mix(in srgb, var(--panel) 70%, transparent)}
+@keyframes pop{from{opacity:0; transform:scale(.3)}}
+.pv-nums{display:grid; gap:2px; text-align:center; font-size:clamp(13px, 1.2vw, 17px)}
+.pv-nums b{font-family:var(--f-display); font-size:clamp(24px, 2.4vw, 38px); font-weight:900; font-variant-numeric:tabular-nums}
+.pv-label{font-family:var(--f-display); font-size:clamp(20px, 2vw, 30px); font-weight:800}
+.wm{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:22px}
+.wm-col{display:grid; gap:6px; align-content:start}
+.wm-col h3{font-size:clamp(24px, 2.4vw, 38px); font-weight:900}
+.wm-col .who{font-family:var(--f-mono); font-size:14px; color:var(--muted)}
+.wm-item{display:grid; grid-template-columns:1fr; gap:0; background:var(--panel); border:1px solid var(--rule); border-left:6px solid var(--seal); padding:6px 12px; border-radius:var(--r); animation:scin .5s both; font-size:clamp(14px, 1.2vw, 18px); font-weight:700; line-height:1.3}
+.wm-item small{font-weight:500; color:var(--muted); font-size:.72em}
+.wm-col.merton .wm-item{border-left-color:var(--stamp)}
+.podium{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:16px; align-items:end; height:min(40vh, 380px); max-width:1000px; width:100%; margin:0 auto}
+.pod{display:grid; grid-template-rows:auto 1fr; gap:10px; height:100%; align-items:end; text-align:center; min-width:0}
+.pod .nm{font-weight:800; font-size:clamp(15px, 1.5vw, 22px); line-height:1.15}
+.pod .blk{background:var(--oc); border-radius:4px 4px 0 0; display:grid; align-content:start; justify-items:center; padding-top:12px; color:#fff; transform-origin:bottom; animation:grow 1.1s cubic-bezier(.2,.8,.2,1) both; text-shadow:0 1px 3px rgba(0,0,0,.35)}
+.pod .blk b{font-family:var(--f-display); font-size:clamp(48px, 6vw, 96px); font-weight:900; line-height:.9}
+.pod .blk span{font-family:var(--f-mono); font-weight:600}
+.rest{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; font-weight:700}
+.rest span{background:var(--panel); border:1px solid var(--rule); border-left:6px solid var(--oc); padding:6px 12px; border-radius:var(--r)}
+.bda{justify-self:center; text-align:center; background:var(--panel); border:2px solid var(--ink); padding:12px 26px; animation:scin .6s 2.4s both}
+.bda b{font-family:var(--f-display); font-size:clamp(26px, 2.8vw, 42px); font-weight:900; display:block}
+.title-scene{place-content:center; justify-items:center; text-align:center; gap:20px}
+.title-scene svg{width:min(28vh, 240px); height:auto; animation:spinin 1.4s cubic-bezier(.2,.8,.2,1) both}
+@keyframes spinin{from{transform:rotate(-120deg) scale(.4); opacity:0}}
+.title-scene h2{font-size:clamp(56px, 9vw, 150px); text-transform:uppercase}
+.title-scene .stamp{font-size:clamp(34px, 4.4vw, 70px); animation:slam .45s 1.5s cubic-bezier(.3,1.6,.5,1) both}
+canvas.confetti{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:5}
+
+@media (max-width: 900px){
+  .board,.lobby,.mod-grid{grid-template-columns:1fr}
+  .p-head{grid-template-columns:1fr auto}
+  .p-round{grid-column:1/-1; grid-row:2; text-align:left}
+  .p-brand b{font-size:26px}
+  .p-brand svg{width:44px; height:44px}
+  .lb-row{grid-template-columns:36px minmax(0,1fr) 72px 72px; gap:10px; padding:10px 12px}
+  .levels{grid-template-columns:repeat(2, minmax(0,1fr))}
+  .levels > div:nth-child(3){border-left:0}
+  .levels > div:nth-child(n+3){border-top:1px solid var(--rule)}
+  .rtabs{grid-template-columns:repeat(3, minmax(0,1fr))}
+  .qgrid,.wm,.tiles{grid-template-columns:1fr}
+  .pv-stacks{gap:8px; height:180px}
+  .tower{width:44px} .sheet{width:44px}
+  .pile{width:52px} .pass{width:14px; height:20px}
+}
+@media (max-width: 520px){
+  .hero{grid-template-columns:1fr}
+  .hero svg{width:88px; height:88px}
+  .pen-row{grid-template-columns:repeat(2, minmax(0,1fr))}
+  .pen-row .oname{grid-column:1/-1}
+  .pen-head{display:none}
+  .round-ctl{grid-template-columns:1fr}
+  .lobby .how div{grid-template-columns:1fr; gap:2px}
+  .brand small{display:none}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important; animation-delay:0s !important; transition:none !important}
+  .chart .line{stroke-dashoffset:0}
+}
+</style>
+
+<header class="topbar">
+  <div class="brand" id="brand"></div>
+  <div class="spacer"></div>
+  <span id="modechip" class="chip local"><span class="dot"></span>Conectando…</span>
+  <button class="btn sm ghost" id="switch-role" type="button" hidden>Cambiar papel</button>
+</header>
+<main id="view"></main>
+<div id="maint" hidden><div class="box"><div class="spinner"></div><h2>Sistema en mantenimiento</h2><p>El Estado está actualizando sus servidores. Vuelva en <b id="maint-s" class="mono">30</b> segundos.</p><p class="muted">Su formulario no se ha perdido. Todavía.</p></div></div>
+<div id="overlays"></div>
+<div id="toasts" aria-live="polite"></div>
+
+<script>
+(() => {
+'use strict';
+
+/* ---------- utilidades ---------- */
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const now = () => Date.now();
+const norm = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
+const pad = (n, w = 3) => String(n).padStart(w, '0');
+const fmtClock = ms => { const s = Math.max(0, Math.ceil(ms / 1000)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+const hhmm = t => { const d = new Date(t); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
+function toRoman(n){ const m=[[1000,'M'],[900,'CM'],[500,'D'],[400,'CD'],[100,'C'],[90,'XC'],[50,'L'],[40,'XL'],[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']]; let r=''; for (const [v,s] of m) while (n >= v){ r += s; n -= v; } return r; }
+const lsGet = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+const lsSet = (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} };
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+/* ---------- reglas del juego ---------- */
+const N_OF = 5;
+const DEFAULT_NAMES = ['Oficina de Sellos y Contrasellos','Dirección de Trámites Redundantes','Secretaría de Asuntos Pendientes','Departamento de Copias y Recopias','Ventanilla de Formularios Varios'];
+const ROUNDS = {
+  0: { label: 'Sala de espera', short: 'Inicio', sub: 'Asignación de cargos' },
+  1: { label: 'Sin burocracia', short: 'Nivel 1', sub: '5 min · 1 pt', dur: 300, pts: 1 },
+  2: { label: 'Burocracia de Weber', short: 'Nivel 2', sub: '8 min · 3 pts', dur: 480, pts: 3 },
+  3: { label: 'Burocracia extrema', short: 'Nivel 3', sub: '5 min · 3 pts', dur: 300, pts: 3 },
+  4: { label: 'Quiz final', short: 'Quiz', sub: '8 preguntas' },
+  5: { label: 'Informe del Estado', short: 'Informe', sub: 'Animación final' },
+};
+const CARGOS = ['Director','Jefe de área','Redactor','Dibujante','Sellador','Verificador','Archivista','Mensajero'];
+const TURNO_MS = 5000;     // el turno actual avanza cada 5 s en el nivel 3
+const QUIZ_MS = 20000;     // 20 s por pregunta
+const F01_EXPIRA = 150000; // el F-01 del nivel 3 expira a los 2,5 min
+const F27_TEXT = 'Declaro bajo juramento no haber usado nombres propios en horario laboral.';
+const PEN = {
+  nombre:    { short: 'Nombre propio',   label: 'Llamó a alguien por su nombre',          principio: 'Impersonalidad' },
+  jerarquia: { short: 'Saltó jerarquía', label: 'Habló con el Estado sin ser Director',   principio: 'Jerarquía de autoridad' },
+  division:  { short: 'Tarea ajena',     label: 'Hizo una tarea de otro cargo',           principio: 'División del trabajo' },
+  verbal:    { short: 'Pidió de palabra',label: 'Pidió algo de palabra y no por formato', principio: 'Comunicación formal' },
+};
+const CAUSALES = ['Formato del pasaporte no estándar','Sello ilegible o ausente','Foto no conforme','Firma faltante','Número de pasaporte inválido'];
+const CAUSALES3 = [...CAUSALES, 'Tinta de color no autorizado','Doblez fuera de norma','Falta el formulario 27-B'];
+const SECRETS = [
+  'El Jefe de área solo puede dar visto bueno estando de pie.',
+  'Toda conversación interna debe empezar con «Con el debido respeto».',
+  'El Sellador debe pedir permiso por escrito al Director antes de cada sello.',
+  'El Dibujante solo puede usar un color por pasaporte y debe justificarlo en voz alta.',
+  'El Archivista debe leer en voz alta cada pasaporte completo antes de que salga.',
+];
+const CIRCULARES = [
+  { code: '001', tipo: 'Autoridad racional-legal', firma: 'El Reglamento Interno, artículo 12', text: 'Toda solicitud entre cargos debe hacerse por escrito. Las solicitudes verbales no existen para el Estado.' },
+  { code: '002', tipo: 'Autoridad carismática', firma: 'El Fundador', text: 'Por decisión personal del Fundador, cada vez que se apruebe un pasaporte toda la oficina debe aplaudir. Ninguna norma lo dice: lo dice él.' },
+  { code: '003', tipo: 'Autoridad tradicional', firma: 'La costumbre de la casa', text: 'Como se ha hecho siempre en este Ministerio, el Archivista firma de último y nadie pregunta por qué.' },
+  { code: '004', tipo: 'Autoridad racional-legal', firma: 'Despacho del Viceministro de Formatos', text: 'Se modifica el formato F-01. Todo trámite en curso queda anulado y debe radicarse de nuevo con la referencia «Circular 004».', special: 'c004' },
+  { code: '005', tipo: 'Autoridad racional-legal', firma: 'Oficina de Control Interno', text: 'Se recuerda que está prohibido sonreír en ventanilla. Las infracciones se tramitarán con el formulario F-88.' },
+];
+const QUIZ = [
+  { q: '¿En qué tipo de autoridad se basa el modelo burocrático de Weber?', o: ['Tradicional','Carismática','Racional-legal','Paternalista'], ok: 2, why: 'La burocracia descansa en la autoridad racional-legal: se obedece a normas impersonales y al cargo, no a la persona ni a la costumbre.' },
+  { q: 'Llamar a cada persona por su cargo y no por su nombre aplicaba…', o: ['La jerarquía de autoridad','La impersonalidad en las relaciones','La competencia técnica','La previsibilidad'], ok: 1, why: 'Impersonalidad: la organización se relaciona con cargos y funciones, no con personas. Por eso «Redactor» y no «Camila».' },
+  { q: 'Que solo el Director pudiera hablar con el Estado representa…', o: ['La división del trabajo','El carácter legal de las normas','La jerarquía de autoridad','La meritocracia'], ok: 2, why: 'Jerarquía de autoridad: cada cargo inferior está bajo el control y la supervisión de uno superior, y la comunicación sigue esa cadena.' },
+  { q: 'Los formatos F-01 y F-02 ilustran sobre todo…', o: ['El carácter formal de las comunicaciones','La autoridad carismática','La resistencia al cambio','La despersonalización'], ok: 0, why: 'En la burocracia las comunicaciones son escritas y formales: todo queda documentado y se puede verificar.' },
+  { q: 'Asignar el cargo de Dibujante a quien mejor dibuja aplica…', o: ['La autoridad tradicional','La competencia técnica y la meritocracia','La rutina estandarizada','El exceso de formalismo'], ok: 1, why: 'Competencia técnica y meritocracia: los cargos se asignan por capacidad comprobada, no por preferencias personales.' },
+  { q: '¿Quién estudió las disfunciones de la burocracia?', o: ['Max Weber','Henri Fayol','Robert K. Merton','Elton Mayo'], ok: 2, why: 'Robert K. Merton mostró que la burocracia, llevada al extremo, produce efectos imprevistos que la vuelven ineficiente.' },
+  { q: 'Cuando las normas dejan de ser medios y se vuelven fines en sí mismas, Merton lo llama…', o: ['Internalización de las reglas y apego a los reglamentos','Exhibición de señales de autoridad','Categorización del proceso decisorio','Profesionalización de los participantes'], ok: 0, why: 'Es lo que vivieron en el nivel 3: llenar el F-27B se volvió más importante que hacer pasaportes.' },
+  { q: 'Se obedece porque «siempre se ha hecho así». ¿Qué tipo de autoridad es?', o: ['Racional-legal','Tradicional','Carismática','Técnica'], ok: 1, why: 'La autoridad tradicional se legitima en la costumbre y los usos heredados, como la Circular 003.' },
+];
+const WEBER = [
+  ['Carácter legal de normas y reglamentos', 'El manual y las reglas de cada nivel'],
+  ['Carácter formal de las comunicaciones', 'Formatos F-01 y F-02'],
+  ['División del trabajo', 'Redactor, Dibujante, Sellador…'],
+  ['Impersonalidad en las relaciones', 'Llamarse por el cargo'],
+  ['Jerarquía de autoridad', 'Solo el Director habla con el Estado'],
+  ['Rutinas y procedimientos estandarizados', 'Pasaporte con formato único'],
+  ['Competencia técnica y meritocracia', 'Cargos según habilidad'],
+];
+const MERTON = [
+  ['Internalización de las reglas', 'El F-27B por encima del pasaporte'],
+  ['Exceso de formalismo y papeleo', 'F-01 + F-03 + F-27B + triple firma'],
+  ['Resistencia al cambio', 'La Circular 004 anuló todo'],
+  ['Despersonalización de las relaciones', 'Nadie es persona, todos son cargos'],
+  ['Superconformidad con las rutinas', 'Números romanos y MAYÚSCULAS'],
+  ['Exhibición de señales de autoridad', 'Tres firmas para un papel'],
+  ['Dificultad en la atención al público', 'Turno 47, vamos en el 3'],
+];
+
+/* ---------- sello oficial (SVG) ---------- */
+function sealSVG(id){
+  return `<svg viewBox="0 0 120 120" aria-hidden="true"><defs><path id="${id}" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs>
+  <circle cx="60" cy="60" r="57" fill="none" stroke="var(--seal)" stroke-width="3"/>
+  <circle cx="60" cy="60" r="52" fill="none" stroke="var(--seal)" stroke-width="1"/>
+  <circle cx="60" cy="60" r="33" fill="none" stroke="var(--seal)" stroke-width="1.5"/>
+  <text font-family="IBM Plex Mono, monospace" font-size="9.2" font-weight="600" fill="var(--seal)" letter-spacing="1.6"><textPath href="#${id}">REPÚBLICA DEL TRÁMITE · MINISTERIO DE TRÁMITES ·</textPath></text>
+  <text x="60" y="58" text-anchor="middle" font-family="Big Shoulders Display, Impact, sans-serif" font-weight="900" font-size="22" fill="var(--seal)">B.S.A.</text>
+  <text x="60" y="74" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="7.5" fill="var(--seal)">F-01 · F-02</text></svg>`;
+}
+
+/* ---------- almacenamiento (db compartida o local) ---------- */
+const store = (() => {
+  let db = null, mode = 'connecting', canWrite = null;
+  const local = {}, listeners = {}, chains = {};
+  const key = p => 'bsa:' + p;
+  const load = p => { if (!local[p]) { let v = {}; try { v = JSON.parse(lsGet(key(p)) || '{}') || {}; } catch (e) {} local[p] = v; } return local[p]; };
+  const save = p => lsSet(key(p), JSON.stringify(local[p]));
+  const emit = p => { const arr = Object.entries(load(p)).map(([id, d]) => ({ id, ...d })); (listeners[p] || []).forEach(cb => cb(arr)); };
+  window.addEventListener('storage', e => { if (!e.key || !e.key.startsWith('bsa:')) return; const p = e.key.slice(4); if (listeners[p]) { delete local[p]; emit(p); } });
+  const serial = (k, fn) => { const c = (chains[k] || Promise.resolve()).catch(() => {}).then(fn); chains[k] = c; return c; };
+  const merge = (a, b) => { const o = { ...a }; for (const k in b) { const v = b[k]; o[k] = (v && typeof v === 'object' && !Array.isArray(v) && a[k] && typeof a[k] === 'object' && !Array.isArray(a[k])) ? merge(a[k], v) : v; } return o; };
+  const clone = d => JSON.parse(JSON.stringify(d));
+  return {
+    get mode(){ return mode; }, get canWrite(){ return canWrite; },
+    async init(){
+      if (lsGet('bsa-pref-local') === '1' || !window.claude || !window.claude.use) { mode = 'local'; return; }
+      try { db = await window.claude.use('db'); } catch (e) { db = null; }
+      if (!db) { mode = 'local'; return; }
+      mode = 'live';
+      try { const user = await window.claude.use('user'); if (user) canWrite = await user.can('data.write'); } catch (e) {}
+    },
+    watch(path, cb){
+      if (mode === 'live') return db.collection(path).onSnapshot(s => cb(s.docs.map(d => ({ id: d.id, ...d.data() }))), e => onStoreError(e));
+      (listeners[path] ||= new Set()).add(cb); setTimeout(() => emit(path), 0);
+      return () => listeners[path].delete(cb);
+    },
+    set(path, id, data){ return serial(path + '/' + id, async () => { if (mode === 'live') return db.collection(path).doc(id).set(data); load(path)[id] = clone(data); save(path); emit(path); }); },
+    update(path, id, patch){ return serial(path + '/' + id, async () => { if (mode === 'live') return db.collection(path).doc(id).update(patch); const c = load(path); if (!c[id]) throw { code: 'invalid_argument', message: 'missing' }; c[id] = merge(c[id], clone(patch)); save(path); emit(path); }); },
+    del(path, id){ return serial(path + '/' + id, async () => { if (mode === 'live') return db.collection(path).doc(id).delete(); delete load(path)[id]; save(path); emit(path); }); },
+  };
+})();
+let storeErrShown = false;
+function onStoreError(e){
+  if (storeErrShown) return; storeErrShown = true;
+  const chip = $('#modechip'); chip.className = 'chip err'; chip.innerHTML = '<span class="dot"></span>Sin conexión';
+  toast(e && e.code === 'revoked' ? 'Este dispositivo perdió el acceso al juego. Recargue la página.' : 'Se perdió la conexión con el juego. Recargue la página o use el modo local desde el panel del moderador.', 'bad');
+}
+function errMsg(e){
+  const c = e && e.code;
+  if (c === 'invalid_argument') return 'No se pudo guardar: esta cuenta no puede escribir en el juego. El dueño debe invitarla como Editor.';
+  if (c === 'resource_exhausted') return 'Demasiadas acciones seguidas. Espere un segundo e intente de nuevo.';
+  if (c === 'quota_exceeded') return 'Se llenó el espacio del juego. Reinicie la partida desde el panel del moderador.';
+  if (c === 'revoked') return 'Este dispositivo perdió el acceso al juego. Recargue la página.';
+  return 'No se pudo guardar. Revise la conexión e intente de nuevo.';
+}
+async function act(p, okMsg){ try { await p; if (okMsg) toast(okMsg, 'ok'); return true; } catch (e) { toast(errMsg(e), 'bad'); return false; } }
+function toast(msg, kind = ''){ const t = document.createElement('div'); t.className = 'toast ' + kind; t.textContent = msg; $('#toasts').appendChild(t); setTimeout(() => t.remove(), kind === 'bad' ? 6000 : 3200); }
+
+/* ---------- estado ---------- */
+const S = { loaded: false, main: null, tramites: [], pen: [], ans: [], aj: [] };
+const P = { tr: () => `ses/${S.main.sid}/tramites`, pen: () => `ses/${S.main.sid}/penal`, ans: () => `ses/${S.main.sid}/respuestas`, aj: () => `ses/${S.main.sid}/ajustes` };
+let curSid = null, unsubs = [];
+function subscribeSession(sid){
+  if (sid === curSid) return;
+  unsubs.forEach(u => u && u()); unsubs = []; curSid = sid;
+  S.tramites = []; S.pen = []; S.ans = []; S.aj = []; seenPen = null;
+  if (!sid) return;
+  unsubs.push(store.watch(`ses/${sid}/tramites`, a => { S.tramites = a; onData('tramites'); }));
+  unsubs.push(store.watch(`ses/${sid}/penal`, a => { S.pen = a; onData('pen'); }));
+  unsubs.push(store.watch(`ses/${sid}/respuestas`, a => { S.ans = a; onData('ans'); }));
+  unsubs.push(store.watch(`ses/${sid}/ajustes`, a => { S.aj = a; onData('aj'); }));
+}
+const names = (m = S.main) => (m && m.names) || DEFAULT_NAMES;
+const oName = (o, m) => names(m)[o] || ('Oficina ' + (o + 1));
+const oColor = o => `var(--o${o + 1})`;
+
+function durOf(m, r){ return (m && m.durs && m.durs[r]) || (ROUNDS[r].dur || 0) * 1000; }
+function clock(m = S.main){
+  if (!m) return { rem: 0, dur: 0, running: false, elapsed: 0, idle: true, done: false };
+  const dur = m.durMs || durOf(m, m.round);
+  const rem = m.status === 'running' ? Math.max(0, (m.endsAt || 0) - now()) : (m.remMs ?? dur);
+  return { rem, dur, running: m.status === 'running' && rem > 0, elapsed: Math.max(0, dur - rem), idle: m.status === 'idle', done: rem <= 0 && !!ROUNDS[m.round].dur };
+}
+const turnoActual = () => 1 + Math.floor(clock().elapsed / TURNO_MS);
+const bonus = ms => Math.max(0, Math.round(5 * (1 - (ms || 0) / QUIZ_MS)));
+const radLabel = t => `R${t.round}-O${t.office + 1}-${t.round === 3 ? toRoman(t.seq || 1) : pad(t.seq || 1)}`;
+function formsOf(t){ if (t.kind !== 'form') return 0; return (t.round === 2 ? 1 : 3) + (t.jefeAt ? 1 : 0) + (t.dirAt ? 1 : 0); }
+
+function agg(D){
+  const m = D.main || {};
+  const rows = [];
+  for (let o = 0; o < N_OF; o++){
+    const row = { o, r: {}, pen: 0, quiz: 0, quizOk: 0 };
+    for (const r of [1, 2, 3]){
+      const ts = D.tramites.filter(t => t.office === o && t.round === r);
+      const adj = D.aj.filter(a => a.office === o && a.round === r).reduce((s, a) => s + (a.delta || 0), 0);
+      const ok = Math.max(0, ts.filter(t => t.status === 'aprobado').length + adj);
+      const endAt = (m.roundEndAt && m.roundEndAt[r]) || (m.round === r && m.status === 'running' ? Math.min(now(), m.endsAt || now()) : now());
+      const forms = ts.reduce((s, t) => s + formsOf(t), 0);
+      const bad = ts.filter(t => ['devuelto','rechazado','anulado'].includes(t.status)).length;
+      const queueMs = ts.filter(t => t.kind === 'form').reduce((s, t) => s + Math.max(0, Math.min(t.doneAt || endAt, endAt) - t.createdAt), 0);
+      const qc = r === 1 && Array.isArray(m.qc) && m.qc[o] != null && m.qc[o] !== '' ? Number(m.qc[o]) : null;
+      row.r[r] = { ok, forms, bad, queueMs, valid: qc != null ? Math.min(qc, ok) : ok, total: ts.length };
+    }
+    row.pen = D.pen.filter(p => p.office === o).length;
+    for (const a of D.ans.filter(a => a.office === o)){ const Q = QUIZ[a.q]; if (Q && a.opt === Q.ok){ row.quizOk++; row.quiz += 10 + bonus(a.ms); } }
+    row.pts = row.r[1].ok * 1 + row.r[2].ok * 3 + row.r[3].ok * 3 - row.pen + row.quiz;
+    rows.push(row);
+  }
+  const qcGiven = Array.isArray(m.qc) && m.qc.some(v => v != null && v !== '');
+  return { rows, qcGiven, m };
+}
+
+/* ---------- acciones del moderador ---------- */
+function baseMain(sid, prev){
+  return { sid, round: 0, status: 'idle', endsAt: 0, remMs: 0, durMs: 0, durs: {}, roundEndAt: {}, maintUntil: 0, circular: null, c004: false,
+    quiz: { i: 0, openedAt: 0, reveal: false }, names: (prev && prev.names) || DEFAULT_NAMES, qrLink: (prev && prev.qrLink) || '', burocrata: '', qc: null, reportNonce: 0, createdAt: now() };
+}
+const M = {
+  create: () => store.set('game', 'main', baseMain('s' + uid(), S.main)),
+  up: patch => store.update('game', 'main', patch),
+  go(r){
+    const m = S.main, patch = { round: r, status: 'idle', endsAt: 0, maintUntil: 0 };
+    const d = ROUNDS[r].dur ? durOf(m, r) : 0; patch.durMs = d; patch.remMs = d;
+    if ([1,2,3].includes(m.round) && m.status !== 'idle' && !(m.roundEndAt && m.roundEndAt[m.round])) patch.roundEndAt = { [m.round]: m.status === 'running' ? Math.min(now(), m.endsAt) : now() };
+    if (r === 4) patch.quiz = { i: 0, openedAt: 0, reveal: false };
+    if (r === 5) patch.reportNonce = now();
+    if (r !== 3) patch.c004 = false;
+    return M.up(patch);
+  },
+  start(){ const c = clock(); if (c.rem <= 0) return Promise.resolve(); return M.up({ status: 'running', endsAt: now() + c.rem }); },
+  pause(){ return M.up({ status: 'paused', remMs: clock().rem }); },
+  addMin(){ const m = S.main, c = clock(), nd = (m.durMs || c.dur) + 60000;
+    return m.status === 'running' ? M.up({ endsAt: Math.max(now(), m.endsAt) + 60000, durMs: nd, durs: { [m.round]: nd } })
+                                  : M.up({ remMs: c.rem + 60000, durMs: nd, durs: { [m.round]: nd }, status: m.status === 'idle' ? 'idle' : 'paused' }); },
+  finish(){ return M.up({ status: 'paused', remMs: 0, roundEndAt: { [S.main.round]: now() } }); },
+  async circular(c){
+    const patch = { circular: { code: c.code, tipo: c.tipo, firma: c.firma, text: c.text, at: now() } };
+    if (c.special === 'c004') patch.c004 = true;
+    await M.up(patch);
+    if (c.special === 'c004'){
+      const live = S.tramites.filter(t => t.round === 3 && t.kind === 'form' && ['radicado','visto_bueno','visto_direccion'].includes(t.status));
+      for (const t of live) await store.update(P.tr(), t.id, { status: 'anulado', causal: 'Circular 004', doneAt: now() });
+    }
+  },
+};
+
+/* ---------- sonido ---------- */
+const Sound = {
+  ctx: null, on: false,
+  enable(){ try { this.ctx = this.ctx || new (window.AudioContext || window.webkitAudioContext)(); this.ctx.resume(); this.on = true; } catch (e) { this.on = false; } },
+  tone(f, d, type = 'sine', v = .2, w = 0){ if (!this.on || !this.ctx) return; const c = this.ctx, t = c.currentTime + w, o = c.createOscillator(), g = c.createGain(); o.type = type; o.frequency.setValueAtTime(f, t); g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(v, t + .01); g.gain.exponentialRampToValueAtTime(.0001, t + d); o.connect(g).connect(c.destination); o.start(t); o.stop(t + d + .05); },
+  noise(d, v = .5){ if (!this.on || !this.ctx) return; const c = this.ctx, b = c.createBuffer(1, c.sampleRate * d, c.sampleRate), ch = b.getChannelData(0); for (let i = 0; i < ch.length; i++) ch[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / ch.length, 3); const s = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain(); f.type = 'lowpass'; f.frequency.value = 900; g.gain.value = v; s.buffer = b; s.connect(f).connect(g).connect(c.destination); s.start(); },
+  stamp(){ this.noise(.18, .9); this.tone(80, .3, 'sine', .5); },
+  buzz(){ this.tone(140, .6, 'square', .1); this.tone(147, .6, 'square', .07); },
+  ding(){ this.tone(988, .3, 'sine', .14); this.tone(1319, .5, 'sine', .1, .1); },
+  chime(){ [659, 523, 587, 392].forEach((f, i) => this.tone(f, .5, 'triangle', .16, i * .34)); },
+  fanfare(){ [523, 659, 784, 1046].forEach((f, i) => this.tone(f, .34, 'triangle', .17, i * .14)); this.tone(1046, 1, 'triangle', .14, .62); },
+  start(){ this.tone(880, .12, 'square', .08); this.tone(1760, .25, 'square', .06, .14); },
+};
+
+/* ---------- vistas: utilidades ---------- */
+function syncList(box, items, keyOf, html, bind){
+  const want = items.map(keyOf), have = new Map($$(':scope > [data-k]', box).map(el => [el.dataset.k, el]));
+  for (const [k, el] of have) if (!want.includes(k)) el.remove();
+  let prev = null;
+  items.forEach((it, i) => {
+    const k = want[i]; let el = have.get(k);
+    if (!el || !el.isConnected){ const tpl = document.createElement('template'); tpl.innerHTML = html(it).trim(); el = tpl.content.firstElementChild; el.dataset.k = k; bind && bind(el, it); }
+    const ref = prev ? prev.nextSibling : box.firstChild;
+    if (el !== ref) box.insertBefore(el, ref);
+    prev = el;
+  });
+}
+function statusChip(t){
+  const r3 = t.round === 3;
+  switch (t.status){
+    case 'radicado': return `<span class="st wait">${r3 ? 'En turno ' + (t.turno || '') : 'Espera visto bueno del Jefe'}</span>`;
+    case 'visto_bueno': return `<span class="st info">${r3 ? 'Espera visto bueno de Dirección' : 'Espera validación del Estado'}</span>`;
+    case 'visto_direccion': return '<span class="st info">Espera validación del Estado</span>';
+    case 'aprobado': return '<span class="st ok">Aprobado</span>';
+    case 'devuelto': return '<span class="st bad">Devuelto</span>';
+    case 'rechazado': return '<span class="st bad">Rechazado</span>';
+    case 'anulado': return '<span class="st bad">Anulado</span>';
+  }
+  return '';
+}
+function phoneHead(el, o, cargo){
+  const m = S.main, R = m ? ROUNDS[m.round] : ROUNDS[0];
+  el.className = 'phead'; el.style.setProperty('--oc', oColor(o));
+  el.innerHTML = `<div><div class="office">${esc(oName(o))}</div><div class="who">${esc(cargo)}</div></div>
+    <div><div class="rlabel">${esc(R.short)}${m && m.round >= 1 && m.round <= 3 ? ' · ' + esc(R.label) : ''}</div><div class="clock" data-timer>${R.dur ? fmtClock(clock().rem) : '—'}</div></div>`;
+}
+function circularBanner(el){
+  const c = S.main && S.main.circular;
+  if (!c || now() - c.at > 6 * 60000){ el.innerHTML = ''; return; }
+  el.innerHTML = `<div class="banner"><b>CIRCULAR ${esc(c.code)}</b> · <span class="muted">${esc(c.tipo)}</span><br>${esc(c.text)} <span class="muted">— ${esc(c.firma)}</span></div>`;
+}
+function noGame(el){
+  el.innerHTML = S.loaded
+    ? `<div class="card waiting"><h2>Aún no hay partida</h2><p>Abra el panel del moderador en otro dispositivo y toque «Crear partida».</p></div>`
+    : `<div class="card waiting"><div class="spinner" style="margin:0 auto 12px"></div><h2>Conectando con el Estado…</h2></div>`;
+}
+
+/* ---------- papel del dispositivo ---------- */
+let role = (() => { try { return JSON.parse(lsGet('bsa-role') || 'null') || { role: 'home' }; } catch (e) { return { role: 'home' }; } })();
+let cur = null;
+function setRole(r){ role = r; lsSet('bsa-role', JSON.stringify(r)); mountView(); window.scrollTo(0, 0); }
+function mountView(){
+  cur && cur.destroy && cur.destroy();
+  const root = $('#view'); root.innerHTML = '';
+  document.body.dataset.role = role.role;
+  const V = VIEWS[role.role] || VIEWS.home;
+  cur = V(root) || {};
+  $('#switch-role').hidden = role.role === 'home';
+  cur.update && cur.update('all');
+}
+function renderMode(){
+  const chip = $('#modechip'); if (storeErrShown) return;
+  if (store.mode === 'live'){ chip.className = 'chip live'; chip.innerHTML = '<span class="dot"></span>' + (store.canWrite === false ? 'En vivo · solo lectura' : 'En vivo'); }
+  else if (store.mode === 'local'){ chip.className = 'chip local'; chip.innerHTML = '<span class="dot"></span>Modo local'; }
+}
+function onData(kind){ cur && cur.update && cur.update(kind); }
+
+/* ================= HOME ================= */
+const VIEWS = {};
+VIEWS.home = root => {
+  root.innerHTML = `<section class="home">
+    <div class="hero">${sealSVG('sh')}<div><h1>Burocracia S.A.</h1>
+      <p class="lede">Dinámica sobre la teoría de la burocracia de Max Weber. Cinco oficinas fabrican pasaportes de papel; esta app es el Estado que los recibe, los aprueba o los rechaza, y se vuelve más burocrático en cada nivel.</p></div></div>
+    <div class="levels">
+      <div><span class="label">Nivel 1</span><b>Sin burocracia</b><span class="pts">1 pt por pasaporte</span></div>
+      <div><span class="label">Nivel 2</span><b>Burocracia de Weber</b><span class="pts">3 pts · F-01 + F-02</span></div>
+      <div><span class="label">Nivel 3</span><b>Burocracia extrema</b><span class="pts">3 pts · F-01 + F-03 + F-27B</span></div>
+      <div><span class="label">Cierre</span><b>Quiz e informe</b><span class="pts">10 pts + bono por rapidez</span></div>
+    </div>
+    <div><h2 style="font-size:32px; margin-bottom:12px">¿Qué papel tiene este dispositivo?</h2>
+    <div class="roles">
+      <div class="card role"><span class="label">Pantalla grande</span><h3>Proyector</h3><p>Cronómetro, tablero de posiciones, circulares, infracciones y el Informe del Estado al final.</p><button class="btn primary" data-go="proj" type="button">Abrir proyector</button></div>
+      <div class="card role"><span class="label">El Estado</span><h3>Moderador</h3><p>Inicia las rondas, emite circulares, valida pasaportes, marca infracciones y dirige el quiz.</p><button class="btn primary" data-go="mod" type="button">Abrir panel</button></div>
+      <div class="card role"><span class="label">Celular de la oficina</span><h3>Director</h3><p>Radica los trámites con los formatos y responde el quiz por su oficina.</p><div class="office-picks">${[0,1,2,3,4].map(o => `<button class="btn" type="button" style="border-color:${oColor(o)}" data-go="dir" data-o="${o}" aria-label="Director de ${esc(oName(o))}">O${o + 1}</button>`).join('')}</div></div>
+      <div class="card role"><span class="label">Celular de la oficina</span><h3>Jefe de área</h3><p>Revisa cada F-01 de su oficina y da el visto bueno (F-02) o lo devuelve con una causal.</p><div class="office-picks">${[0,1,2,3,4].map(o => `<button class="btn" type="button" style="border-color:${oColor(o)}" data-go="jefe" data-o="${o}" aria-label="Jefe de ${esc(oName(o))}">O${o + 1}</button>`).join('')}</div></div>
+      <div class="card role"><span class="label">Equipo organizador</span><h3>Auditor</h3><p>Marca infracciones y confirma en la Ventanilla del Estado que el pasaporte de papel coincide.</p><button class="btn primary" data-go="aud" type="button">Abrir auditoría</button></div>
+    </div></div>
+    <p class="note" id="home-note"></p>
+  </section>`;
+  $$('[data-go]', root).forEach(b => b.onclick = () => setRole({ role: b.dataset.go, office: b.dataset.o != null ? Number(b.dataset.o) : undefined }));
+  return { update(){
+    const n = $('#home-note', root);
+    n.textContent = store.mode === 'live'
+      ? (store.canWrite === false ? 'Este dispositivo ve el juego en vivo pero no puede escribir. El dueño del juego debe invitar esta cuenta como Editor para que pueda jugar desde aquí.' : 'En vivo: cada dispositivo que abra este enlace ve los mismos datos al instante. Elija un papel por dispositivo; puede cambiarlo cuando quiera.')
+      : 'Modo local: el juego funciona solo en este navegador. Puede abrir el proyector y el panel del moderador en dos pestañas o ventanas del mismo navegador.';
+  } };
+};
+
+/* ================= DIRECTOR ================= */
+VIEWS.dir = root => {
+  const o = role.office ?? 0;
+  root.innerHTML = `<div class="phone" style="--oc:${oColor(o)}"><div id="d-head"></div><div id="d-banner"></div><div id="d-secret"></div><div id="d-main"></div><div id="d-dirq"></div><div id="d-list"></div></div>`;
+  let wiz = { step: 1, openedAt: 0, f01: null, f01At: 0, confirm: 0, last: null };
+  let pendingDir = null;
+  const resetWiz = () => { wiz = { step: 1, openedAt: 0, f01: null, f01At: 0, confirm: 0, last: null }; };
+  const mine = r => S.tramites.filter(t => t.office === o && t.round === r && t.kind === 'form');
+  const nextSeq = r => mine(r).length + 1;
+
+  function stageKey(){ const m = S.main; if (!m) return 'none' + S.loaded; return [m.sid, m.round, m.round === 3 ? (m.c004 ? 'c' : 'n') + wiz.step : '', m.round === 4 ? m.quiz.i : ''].join('|'); }
+
+  function f01HTML(r){
+    const ex = r === 3, c004 = S.main.c004;
+    return `<form class="formato" id="f01" novalidate>
+      <div class="formato-head"><span class="code">F-01</span><div><b>Solicitud de expedición de pasaporte</b><small>${esc(oName(o))}</small></div><div class="rad">Radicado asignado: <b id="rad-next"></b></div></div>
+      ${ex ? '<div class="steps"><span class="done"></span><span></span><span></span><span></span></div>' : ''}
+      <fieldset id="d-fs">
+        <div class="field"><label for="f-tit">Nombre del titular del pasaporte</label><input id="f-tit" name="titular" autocomplete="off"></div>
+        <div class="field"><label for="f-num">Número de pasaporte</label><input id="f-num" name="numero" autocomplete="off" autocapitalize="characters" placeholder="BS204871"><span class="hint">Formato estándar: 2 letras y 6 números.</span></div>
+        <div class="field"><label for="f-red">Cargo de quien lo redactó</label><input id="f-red" name="c_red" autocomplete="off" placeholder="Escriba el cargo, no el nombre"></div>
+        <div class="field"><label for="f-dib">Cargo de quien dibujó la foto</label><input id="f-dib" name="c_dib" autocomplete="off" placeholder="Escriba el cargo, no el nombre"></div>
+        <div class="field"><label for="f-sel">Cargo de quien lo selló</label><input id="f-sel" name="c_sel" autocomplete="off" placeholder="Escriba el cargo, no el nombre"></div>
+        ${ex ? `<div class="field"><label for="f-rom">Radicado en números romanos</label><span class="hint">Su radicado es el N.º <b id="rom-n" class="mono"></b>. Escríbalo en números romanos.</span><input id="f-rom" name="romano" autocomplete="off" autocapitalize="characters"></div>` : ''}
+        ${ex && c004 ? `<div class="field"><label for="f-ref">Referencia normativa vigente</label><span class="hint">Exigida por la última circular del Despacho.</span><input id="f-ref" name="ref" autocomplete="off"></div>` : ''}
+        <label class="check"><input type="checkbox" name="std" id="f-std"><span>El pasaporte cumple el formato estándar: nombre, número, foto, sello y firma.</span></label>
+        ${ex ? `<label class="check"><input type="checkbox" name="k1" id="f-k1"><span>Leí las instrucciones de este formulario.</span></label>
+                <label class="check"><input type="checkbox" name="k2" id="f-k2"><span>Confirmo que leí la casilla anterior.</span></label>
+                <label class="check"><input type="checkbox" name="k3" id="f-k3"><span>Confirmo que confirmé la casilla anterior.</span></label>` : ''}
+        <div class="field"><label for="f-fir">Firma del Director</label>${ex ? '<span class="hint">En MAYÚSCULAS SOSTENIDAS.</span>' : ''}<input id="f-fir" name="firma" autocomplete="off"></div>
+        <div class="errs" id="f-errs"></div>
+        <button class="btn primary big" type="submit">${ex ? 'Continuar al F-03' : 'Radicar F-01'}</button>
+      </fieldset></form>`;
+  }
+  function validateF01(fd, r){
+    const e = [];
+    if (!fd.titular.trim()) e.push('Falta el nombre del titular del pasaporte.');
+    if (!/^[A-Z]{2}\d{6}$/.test(fd.numero.trim().toUpperCase())) e.push('El número de pasaporte debe tener 2 letras y 6 números. <b>Rutinas estandarizadas.</b>');
+    for (const [k, exp, lbl] of [['c_red','Redactor','redactó'],['c_dib','Dibujante','dibujó'],['c_sel','Sellador','selló']]){
+      const v = norm(fd[k]);
+      if (v === norm(exp)) continue;
+      if (CARGOS.some(c => norm(c) === v)) e.push(`Quien ${lbl} debe ser el ${exp}, no el ${esc(fd[k].trim())}. <b>División del trabajo.</b>`);
+      else e.push(`En «quien ${lbl}» escriba el cargo, no el nombre de la persona. <b>Impersonalidad.</b>`);
+    }
+    if (!fd.std) e.push('Debe certificar que el pasaporte cumple el formato estándar.');
+    if (!fd.firma.trim()) e.push('Falta la firma del Director.');
+    if (r === 3){
+      const seq = nextSeq(3);
+      if (fd.romano.trim().toUpperCase() !== toRoman(seq)) e.push(`«${esc(fd.romano.trim() || '(vacío)')}» no es el número ${seq} en números romanos.`);
+      if (!/[A-ZÁÉÍÓÚÑ]/.test(fd.firma) || fd.firma !== fd.firma.toUpperCase()) e.push('La firma del Director debe ir en MAYÚSCULAS SOSTENIDAS.');
+      if (!fd.k1 || !fd.k2 || !fd.k3) e.push('Debe marcar las tres casillas de confirmación.');
+      if (S.main.c004 && norm(fd.ref) !== norm('Circular 004')) e.push('Falta la referencia normativa vigente o no coincide con la última circular.');
+      if (wiz.openedAt && now() - wiz.openedAt > F01_EXPIRA) e.push('EXPIRED');
+    }
+    return e;
+  }
+  const readForm = f => { const d = {}; for (const el of f.elements){ if (!el.name) continue; d[el.name] = el.type === 'checkbox' ? el.checked : el.value; } return d; };
+  const showErrs = (box, errs) => { box.innerHTML = errs.length ? '<b>El Estado no puede radicar este formato:</b>' + errs.map(x => `<div>• ${x}</div>`).join('') : ''; };
+
+  function stageHTML(){
+    const m = S.main; if (!m) return '';
+    const r = m.round;
+    if (r === 0) return `<div class="card"><h3>Sala de espera</h3><p class="sub">Mientras el moderador inicia, repartan los cargos de su oficina.</p>
+      <div class="tlist">${CARGOS.map(c => `<div class="titem"><b>${esc(c)}</b></div>`).join('')}</div>
+      <p class="muted" style="margin-top:10px; font-size:13px">Asignen cada cargo con una prueba rápida: quien dibuje mejor es el Dibujante. Eso es competencia técnica.</p></div>`;
+    if (r === 1) return `<div class="card tapzone"><h3>Nivel 1 · Sin burocracia</h3><p class="sub">No hay formatos, ni jefes, ni revisión. Cada vez que entreguen un pasaporte al Estado, toquen el botón.</p>
+      <button class="tap" id="d-tap" type="button">+1<br>Entregado</button>
+      <div><span class="label">Entregados por su oficina</span><div class="bigcount" id="d-count">0</div></div>
+      <button class="btn ghost sm" id="d-undo" type="button">Anular el último</button></div>`;
+    if (r === 2) return f01HTML(2);
+    if (r === 3){
+      if (wiz.step === 1) return f01HTML(3);
+      if (wiz.step === 2) return `<form class="formato" id="f03" novalidate><div class="formato-head"><span class="code">F-03</span><div><b>Certificado de haber diligenciado correctamente el F-01</b><small>${esc(oName(o))}</small></div></div>
+        <div class="steps"><span class="done"></span><span class="done"></span><span></span><span></span></div>
+        <fieldset id="d-fs">
+          <label class="check"><input type="checkbox" name="cert"><span>Certifico que el F-01 fue diligenciado correctamente y sin tachones.</span></label>
+          <div class="field"><label for="f3-h">Hora exacta en que diligenció el F-01</label><span class="hint">Formato de 24 horas, HH:MM.</span><input id="f3-h" name="hora" inputmode="numeric" autocomplete="off" placeholder="HH:MM"></div>
+          <div class="errs" id="f-errs"></div>
+          <button class="btn primary big" type="submit">Continuar al F-27B</button>
+          <button class="btn ghost sm" type="button" data-cancel>Cancelar el trámite</button>
+        </fieldset></form>`;
+      if (wiz.step === 3) return `<form class="formato" id="f27" novalidate><div class="formato-head"><span class="code">F-27B</span><div><b>Declaración juramentada de no uso de nombres propios en horario laboral</b><small>${esc(oName(o))}</small></div></div>
+        <div class="steps"><span class="done"></span><span class="done"></span><span class="done"></span><span></span></div>
+        <fieldset id="d-fs">
+          <div class="field"><label for="f27-t">Transcriba la declaración exactamente como aparece</label><div class="quote">${esc(F27_TEXT)}</div><textarea id="f27-t" name="decl" autocomplete="off" spellcheck="false"></textarea></div>
+          <label class="check"><input type="checkbox" name="jura"><span>Lo juro.</span></label>
+          <div class="errs" id="f-errs"></div>
+          <button class="btn primary big" type="submit">Continuar</button>
+          <button class="btn ghost sm" type="button" data-cancel>Cancelar el trámite</button>
+        </fieldset></form>`;
+      if (wiz.step === 4) return `<div class="formato"><div class="formato-head"><span class="code">ENVÍO</span><div><b>Confirmación de radicación</b><small>F-01 + F-03 + F-27B</small></div></div>
+        <div class="steps"><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span></div>
+        <fieldset id="d-fs"><p id="d-conf-msg">Sus tres formatos están listos para radicar.</p>
+          <div class="errs" id="f-errs"></div>
+          <button class="btn primary big" id="d-conf" type="button">Radicar trámite</button>
+          <button class="btn ghost sm" type="button" data-cancel>Cancelar el trámite</button></fieldset></div>`;
+      if (wiz.step === 5) return `<div class="card waiting"><span class="label">Trámite radicado</span><h2 class="mono" style="font-size:28px">${esc(wiz.last ? radLabel(wiz.last) : '')}</h2>
+        <p style="font-size:20px">Su turno es el <b class="mono" style="font-size:30px">${wiz.last ? wiz.last.turno : ''}</b></p>
+        <p>Turno actual: <b class="mono" data-turno>${turnoActual()}</b></p>
+        <p class="muted" style="margin:10px 0 14px">El Jefe de área solo verá su trámite cuando llegue su turno.</p>
+        <button class="btn primary" id="d-again" type="button">Radicar otro trámite</button></div>`;
+    }
+    if (r === 4) return `<div class="card" id="d-quiz"></div>`;
+    if (r === 5) return `<div class="card waiting"><h2>Informe del Estado</h2><p>Miren el proyector.</p></div>`;
+    return '';
+  }
+
+  function bindStage(main){
+    const m = S.main; if (!m) return;
+    const r = m.round;
+    main.querySelectorAll('[data-cancel]').forEach(b => b.onclick = () => { resetWiz(); update(); });
+    if (r === 1){
+      $('#d-tap', main).onclick = () => { if (!clock().running) return toast('La ronda no está activa.'); if (navigator.vibrate) try { navigator.vibrate(30); } catch (e) {}
+        act(store.set(P.tr(), uid(), { office: o, round: 1, kind: 'tap', status: 'aprobado', createdAt: now(), doneAt: now() })); };
+      $('#d-undo', main).onclick = () => { const last = S.tramites.filter(t => t.office === o && t.round === 1 && t.kind === 'tap').sort((a, b) => b.createdAt - a.createdAt)[0]; if (last) act(store.del(P.tr(), last.id), 'Se anuló el último entregado.'); };
+    }
+    const f01 = $('#f01', main);
+    if (f01){
+      if (r === 3 && !wiz.openedAt) wiz.openedAt = now();
+      f01.onsubmit = async ev => {
+        ev.preventDefault();
+        if (!clock().running) return toast('La ronda no está activa.');
+        const fd = readForm(f01), errs = validateF01(fd, r), box = $('#f-errs', f01);
+        if (errs.includes('EXPIRED')){ showErrs(box, ['El formulario expiró por inactividad (máximo 2 minutos y medio). Debe diligenciarlo de nuevo. <b>Exceso de formalismo.</b>']); f01.reset(); wiz.openedAt = now(); return; }
+        showErrs(box, errs); if (errs.length) return;
+        const f = { titular: fd.titular.trim(), numero: fd.numero.trim().toUpperCase(), c_red: 'Redactor', c_dib: 'Dibujante', c_sel: 'Sellador', firma: fd.firma.trim() };
+        if (r === 2){
+          const seq = nextSeq(2), t = { office: o, round: 2, kind: 'form', status: 'radicado', seq, f01: f, createdAt: now() };
+          if (await act(store.set(P.tr(), uid(), t))){ toast(`Radicado ${radLabel(t)}. Espera visto bueno del Jefe.`, 'ok'); f01.reset(); }
+        } else { wiz.f01 = f; wiz.f01At = now(); wiz.step = 2; update(); }
+      };
+    }
+    const f03 = $('#f03', main);
+    if (f03) f03.onsubmit = ev => { ev.preventDefault(); const fd = readForm(f03), e = [];
+      if (!fd.cert) e.push('Debe certificar el F-01.');
+      const mm = /^(\d{1,2}):(\d{2})$/.exec(fd.hora.trim()); const target = new Date(wiz.f01At);
+      if (!mm) e.push('La hora debe ir en formato HH:MM.');
+      else { const diff = Math.abs((Number(mm[1]) * 60 + Number(mm[2])) - (target.getHours() * 60 + target.getMinutes())); if (diff > 1) e.push('La hora no coincide con el registro del Estado. <b>Carácter formal de las comunicaciones.</b>'); }
+      showErrs($('#f-errs', f03), e); if (!e.length){ wiz.step = 3; update(); } };
+    const f27 = $('#f27', main);
+    if (f27){ const ta = $('textarea', f27); ta.addEventListener('paste', ev => { ev.preventDefault(); toast('El F-27B debe transcribirse a mano. Copiar y pegar no está autorizado.', 'bad'); });
+      f27.onsubmit = ev => { ev.preventDefault(); const fd = readForm(f27), e = [];
+        if (fd.decl.replace(/\s+/g, ' ').trim() !== F27_TEXT) e.push('La declaración no coincide letra por letra con el texto oficial (mayúsculas, tildes y punto final incluidos). <b>Apego a los reglamentos.</b>');
+        if (!fd.jura) e.push('Debe jurar.');
+        showErrs($('#f-errs', f27), e); if (!e.length){ wiz.step = 4; wiz.confirm = 0; update(); } }; }
+    const conf = $('#d-conf', main);
+    if (conf) conf.onclick = async () => {
+      if (!clock().running) return toast('La ronda no está activa.');
+      const msgs = ['¿Está seguro de que desea radicar?', '¿Completamente seguro? Según el Decreto 27B esta acción no tiene reversa.'];
+      if (wiz.confirm < 2){ $('#d-conf-msg', main).textContent = msgs[wiz.confirm]; conf.textContent = wiz.confirm === 0 ? 'Sí, estoy seguro' : 'Sí, completamente seguro'; wiz.confirm++; return; }
+      conf.disabled = true;
+      const seq = nextSeq(3), turno = turnoActual() + 5 + Math.floor(Math.random() * 6);
+      const t = { office: o, round: 3, kind: 'form', status: 'radicado', seq, turno, f01: wiz.f01, f03: true, f27: true, createdAt: now() };
+      if (await act(store.set(P.tr(), uid(), t))){ wiz.last = t; wiz.step = 5; update(); } else conf.disabled = false;
+    };
+    const again = $('#d-again', main); if (again) again.onclick = () => { resetWiz(); update(); };
+  }
+
+  function dynamic(main){
+    const m = S.main; if (!m) return;
+    const fs = $('#d-fs', main); if (fs) fs.disabled = !clock().running;
+    const tap = $('#d-tap', main); if (tap) tap.disabled = !clock().running;
+    const cnt = $('#d-count', main); if (cnt) cnt.textContent = S.tramites.filter(t => t.office === o && t.round === 1).length;
+    const rn = $('#rad-next', main); if (rn) rn.textContent = radLabel({ round: m.round, office: o, seq: nextSeq(m.round) });
+    const rom = $('#rom-n', main); if (rom) rom.textContent = nextSeq(3);
+    const qz = $('#d-quiz', main); if (qz) quizPhone(qz);
+  }
+
+  function quizPhone(el){
+    const m = S.main, qi = m.quiz.i, Q = QUIZ[qi];
+    if (!Q){ el.innerHTML = '<div class="waiting"><h2>Fin del quiz</h2><p>Miren el proyector.</p></div>'; return; }
+    const a = S.ans.find(x => x.office === o && x.q === qi);
+    const open = m.quiz.openedAt && !m.quiz.reveal && now() - m.quiz.openedAt < QUIZ_MS;
+    let body;
+    if (!m.quiz.openedAt) body = '<p class="muted">Espere a que el moderador abra la pregunta.</p>';
+    else if (m.quiz.reveal){ const ok = a && a.opt === Q.ok; body = `<div class="errs" style="border-color:${ok ? 'var(--ok)' : 'var(--stamp)'}; background:${ok ? 'var(--ok-soft)' : 'var(--stamp-soft)'}"><b style="color:${ok ? 'var(--ok)' : 'var(--stamp)'}">${a ? (ok ? '¡Correcto! +' + (10 + bonus(a.ms)) + ' puntos' : 'Incorrecto') : 'Sin respuesta'}</b><div>Respuesta: ${'ABCD'[Q.ok]}. ${esc(Q.o[Q.ok])}</div></div>`; }
+    else if (a) body = `<p>Respuesta registrada: <b class="mono">${'ABCD'[a.opt]}</b>. Esperen la revelación en el proyector.</p>`;
+    else if (!open) body = '<p class="muted">Se acabó el tiempo para esta pregunta.</p>';
+    else body = `<div class="stack">${Q.o.map((t, i) => `<button class="btn big" type="button" data-opt="${i}" style="justify-content:flex-start; text-align:left"><b class="mono">${'ABCD'[i]}</b> ${esc(t)}</button>`).join('')}</div>`;
+    const sig = [qi, m.quiz.openedAt, m.quiz.reveal, a ? a.opt : '', open].join('|');
+    if (el.dataset.sig === sig) return; el.dataset.sig = sig;
+    el.innerHTML = `<span class="label">Pregunta ${qi + 1} de ${QUIZ.length}</span><h3 style="margin:6px 0 12px; font-size:24px">${esc(Q.q)}</h3>${body}<p class="muted" style="font-size:12px; margin-top:10px">Discutan en oficina y responda solo el Director. Correcta: 10 pts + hasta 5 por rapidez.</p>`;
+    $$('[data-opt]', el).forEach(b => b.onclick = () => { const m2 = S.main; if (!m2.quiz.openedAt || m2.quiz.reveal || now() - m2.quiz.openedAt >= QUIZ_MS) return;
+      $$('[data-opt]', el).forEach(x => x.disabled = true);
+      act(store.set(P.ans(), `${qi}_${o}`, { office: o, q: qi, opt: Number(b.dataset.opt), ms: now() - m2.quiz.openedAt, at: now() })); });
+  }
+
+  function lists(){
+    const m = S.main, dq = $('#d-dirq', root), dl = $('#d-list', root);
+    if (!m || ![2,3].includes(m.round)){ dq.innerHTML = ''; dl.innerHTML = ''; return; }
+    if (m.round === 3){
+      const q = S.tramites.filter(t => t.office === o && t.round === 3 && t.status === 'visto_bueno');
+      dq.innerHTML = q.length ? `<div class="sect-title">Pendientes de visto bueno de Dirección</div><div class="tlist">${q.map(t => `<div class="titem"><span class="rad">${esc(radLabel(t))}</span><span class="mono">${esc(t.f01.numero)}</span><div class="meta">${esc(t.f01.titular)} · ya tiene visto bueno del Jefe</div>
+        <div style="grid-column:1/-1">${pendingDir === t.id ? `<div class="confirm-row"><span>¿Confirma el visto bueno de Dirección?</span><button class="btn ok sm" data-dirok="${t.id}" type="button">Confirmar</button><button class="btn sm" data-dirno type="button">Volver</button></div>` : `<button class="btn primary sm" data-dir="${t.id}" type="button">Dar visto bueno de Dirección</button>`}</div></div>`).join('')}</div>` : '';
+      $$('[data-dir]', dq).forEach(b => b.onclick = () => { pendingDir = b.dataset.dir; lists(); });
+      $$('[data-dirno]', dq).forEach(b => b.onclick = () => { pendingDir = null; lists(); });
+      $$('[data-dirok]', dq).forEach(b => b.onclick = async () => { b.disabled = true; pendingDir = null; await act(store.update(P.tr(), b.dataset.dirok, { status: 'visto_direccion', dirAt: now() }), 'Visto bueno de Dirección registrado.'); });
+    } else dq.innerHTML = '';
+    const ts = mine(m.round).sort((a, b) => b.createdAt - a.createdAt);
+    const ta = turnoActual();
+    dl.innerHTML = `<div class="sect-title">Mis trámites de este nivel</div>` + (ts.length ? `<div class="tlist">${ts.map(t => `<div class="titem"><span class="rad">${esc(radLabel(t))}</span>${statusChip(t)}<div class="meta">${esc(t.f01.titular)} · ${esc(t.f01.numero)}${t.status === 'radicado' && m.round === 3 ? ` · turno ${t.turno}, vamos en el ${ta}` : ''}${t.causal ? ' · Causal: ' + esc(t.causal) : ''}</div></div>`).join('')}</div>` : '<p class="muted">Todavía no ha radicado trámites en este nivel.</p>');
+  }
+
+  let lastTurno = 0;
+  function update(){
+    const main = $('#d-main', root);
+    if (!S.main){ $('#d-head', root).innerHTML = ''; noGame(main); main.dataset.key = ''; return; }
+    phoneHead($('#d-head', root), o, 'Director');
+    circularBanner($('#d-banner', root));
+    $('#d-secret', root).innerHTML = S.main.round === 3 ? `<div class="secret"><span class="label">Regla secreta de su oficina</span><p>${esc(SECRETS[o])}</p></div>` : '';
+    const k = stageKey();
+    if (main.dataset.key !== k){ main.dataset.key = k; main.innerHTML = stageHTML(); bindStage(main); }
+    dynamic(main); lists();
+  }
+  return { update, tick(){
+    const main = $('#d-main', root); dynamic(main);
+    if (S.main && S.main.round === 3){ const t = turnoActual(); if (t !== lastTurno){ lastTurno = t; lists(); } }
+  } };
+};
+
+/* ================= JEFE DE ÁREA ================= */
+VIEWS.jefe = root => {
+  const o = role.office ?? 0;
+  root.innerHTML = `<div class="phone" style="--oc:${oColor(o)}"><div id="j-head"></div><div id="j-banner"></div><div id="j-secret"></div><div id="j-main"></div></div>`;
+  let lastKey = '', lastTurno = 0;
+  function card(t){
+    const r3 = t.round === 3, causales = r3 ? CAUSALES3 : CAUSALES;
+    return `<article class="formato"><div class="formato-head"><span class="code">F-02</span><div><b>Visto bueno del Jefe de área</b><small class="mono">${esc(radLabel(t))}</small></div></div>
+      <dl class="dl"><dt>Titular</dt><dd>${esc(t.f01.titular)}</dd><dt>Número</dt><dd>${esc(t.f01.numero)}</dd><dt>Redactó</dt><dd>${esc(t.f01.c_red)}</dd><dt>Dibujó</dt><dd>${esc(t.f01.c_dib)}</dd><dt>Selló</dt><dd>${esc(t.f01.c_sel)}</dd><dt>Firma</dt><dd>${esc(t.f01.firma)}</dd></dl>
+      <fieldset class="j-fs">
+        <label class="check"><input type="checkbox" class="j-ver"><span>Verifiqué el pasaporte de papel y coincide con el F-01.</span></label>
+        ${r3 ? '<div class="field"><label>Firma del Jefe de área</label><span class="hint">En MAYÚSCULAS SOSTENIDAS.</span><input class="j-fir" autocomplete="off"></div>' : ''}
+        <div class="errs j-errs"></div>
+        <button class="btn ok big j-ok" type="button">Dar visto bueno</button>
+        <div class="row"><select class="j-causal" aria-label="Causal de devolución" style="flex:1; min-width:0; padding:8px; border:1px solid var(--rule); border-radius:var(--r); background:var(--panel)">${causales.map(c => `<option>${esc(c)}</option>`).join('')}</select><button class="btn danger j-dev" type="button">Devolver</button></div>
+      </fieldset></article>`;
+  }
+  function bind(el, t){
+    $('.j-ok', el).onclick = async () => {
+      if (!clock().running) return toast('La ronda no está activa.');
+      const e = []; if (!$('.j-ver', el).checked) e.push('Debe verificar el pasaporte de papel antes de dar el visto bueno.');
+      const fir = $('.j-fir', el); if (fir && (!/[A-ZÁÉÍÓÚÑ]/.test(fir.value) || fir.value !== fir.value.toUpperCase())) e.push('La firma del Jefe debe ir en MAYÚSCULAS SOSTENIDAS.');
+      $('.j-errs', el).innerHTML = e.length ? e.map(x => `<div>• ${x}</div>`).join('') : ''; if (e.length) return;
+      $('.j-ok', el).disabled = true;
+      if (!await act(store.update(P.tr(), t.id, { status: 'visto_bueno', jefeAt: now(), jefeFirma: fir ? fir.value : 'Jefe de área' }), 'Visto bueno registrado.')) $('.j-ok', el).disabled = false;
+    };
+    $('.j-dev', el).onclick = async () => {
+      if (!clock().running) return toast('La ronda no está activa.');
+      $('.j-dev', el).disabled = true;
+      await act(store.update(P.tr(), t.id, { status: 'devuelto', causal: $('.j-causal', el).value, by: 'Jefe de área', jefeAt: now(), doneAt: now() }), 'Trámite devuelto al Director.');
+    };
+  }
+  function update(){
+    const main = $('#j-main', root);
+    if (!S.main){ $('#j-head', root).innerHTML = ''; noGame(main); lastKey = ''; return; }
+    const m = S.main, r = m.round;
+    phoneHead($('#j-head', root), o, 'Jefe de área');
+    circularBanner($('#j-banner', root));
+    $('#j-secret', root).innerHTML = r === 3 ? `<div class="secret"><span class="label">Regla secreta de su oficina</span><p>${esc(SECRETS[o])}</p></div>` : '';
+    const key = m.sid + '|' + r;
+    if (key !== lastKey){ lastKey = key;
+      if (r === 2 || r === 3) main.innerHTML = `<div id="j-wait"></div><div class="sect-title">Trámites para visto bueno</div><div id="j-q" class="stack"></div><div id="j-hist"></div>`;
+      else if (r === 1) main.innerHTML = '<div class="card waiting"><h2>Nivel 1</h2><p>En este nivel no hay jerarquía ni revisión. Ayude a su oficina a producir pasaportes.</p></div>';
+      else if (r === 4) main.innerHTML = '<div class="card waiting"><h2>Quiz final</h2><p>Discuta las respuestas con su oficina. Responde el Director desde su celular.</p></div>';
+      else if (r === 5) main.innerHTML = '<div class="card waiting"><h2>Informe del Estado</h2><p>Miren el proyector.</p></div>';
+      else main.innerHTML = '<div class="card waiting"><h2>Sala de espera</h2><p>Desde el nivel 2, aquí llegarán los F-01 de su oficina para que usted les dé el visto bueno.</p></div>';
+    }
+    if (r !== 2 && r !== 3) return;
+    const ta = turnoActual();
+    const pend = S.tramites.filter(t => t.office === o && t.round === r && t.status === 'radicado').sort((a, b) => a.createdAt - b.createdAt);
+    const ready = r === 3 ? pend.filter(t => t.turno <= ta) : pend;
+    const waiting = r === 3 ? pend.filter(t => t.turno > ta) : [];
+    const box = $('#j-q', main);
+    syncList(box, ready, t => t.id, card, bind);
+    if (!ready.length && !box.querySelector('.empty')) box.insertAdjacentHTML('beforeend', '<p class="muted empty">No hay trámites esperando su visto bueno.</p>');
+    if (ready.length) $$('.empty', box).forEach(e => e.remove());
+    $('#j-wait', main).innerHTML = r === 3 ? `<div class="turno" style="margin-bottom:4px"><div><span class="label" style="color:inherit">Turno actual</span><div class="muted" style="color:inherit; opacity:.7">${waiting.length} trámite${waiting.length === 1 ? '' : 's'} en espera${waiting.length ? ' · siguiente: turno ' + Math.min(...waiting.map(t => t.turno)) : ''}</div></div><b data-turno>${ta}</b></div>` : '';
+    const done = S.tramites.filter(t => t.office === o && t.round === r && t.jefeAt).sort((a, b) => b.jefeAt - a.jefeAt).slice(0, 6);
+    $('#j-hist', main).innerHTML = done.length ? `<div class="sect-title">Decisiones recientes</div><div class="tlist">${done.map(t => `<div class="titem"><span class="rad">${esc(radLabel(t))}</span>${statusChip(t)}<div class="meta">${esc(t.f01.titular)}${t.causal ? ' · ' + esc(t.causal) : ''}</div></div>`).join('')}</div>` : '';
+    $$('.j-fs', main).forEach(f => f.disabled = !clock().running);
+  }
+  return { update, tick(){ if (S.main && S.main.round === 3){ const t = turnoActual(); if (t !== lastTurno){ lastTurno = t; update(); } } if (S.main) $$('.j-fs', root).forEach(f => f.disabled = !clock().running); } };
+};
+
+/* ================= componentes compartidos: infracciones y ventanilla ================= */
+function penaltyGrid(el, offices){
+  const counts = o => S.pen.filter(p => p.office === o).length;
+  const sig = offices.join(',') + '|' + offices.map(counts).join(',') + '|' + (S.main && S.main.names || []).join();
+  if (el.dataset.sig === sig) return; el.dataset.sig = sig;
+  el.innerHTML = `<div class="pen-grid"><div class="pen-row pen-head"><span>Oficina</span>${Object.values(PEN).map(p => `<span>${esc(p.principio)}</span>`).join('')}</div>
+    ${offices.map(o => `<div class="pen-row"><span class="oname"><span class="swatch" style="background:${oColor(o)}"></span>${esc(oName(o))} <span class="muted mono">(${counts(o)})</span></span>${Object.entries(PEN).map(([k, p]) => `<button class="btn" type="button" data-pen="${k}" data-o="${o}" title="${esc(p.label)}">${esc(p.short)}</button>`).join('')}</div>`).join('')}</div>`;
+  $$('[data-pen]', el).forEach(b => b.onclick = () => { if (!S.main) return; b.disabled = true; setTimeout(() => b.disabled = false, 900);
+    act(store.set(P.pen(), uid(), { office: Number(b.dataset.o), type: b.dataset.pen, round: S.main.round, at: now() }), `Infracción registrada: ${PEN[b.dataset.pen].label} (−1).`); });
+}
+function estadoQueue(el, offices){
+  const m = S.main; if (!m) return;
+  const q = S.tramites.filter(t => offices.includes(t.office) && ((t.round === 2 && t.status === 'visto_bueno') || (t.round === 3 && t.status === 'visto_direccion'))).sort((a, b) => (a.jefeAt || 0) - (b.jefeAt || 0));
+  syncList(el, q, t => t.id, t => `<article class="formato"><div class="formato-head"><span class="code" style="border-color:${oColor(t.office)}">${esc(radLabel(t))}</span><div><b>${esc(oName(t.office))}</b><small>${t.round === 3 ? 'Visto bueno del Jefe y de Dirección' : 'Visto bueno del Jefe'}</small></div></div>
+      <dl class="dl"><dt>Titular</dt><dd>${esc(t.f01.titular)}</dd><dt>Número</dt><dd>${esc(t.f01.numero)}</dd><dt>Firma</dt><dd>${esc(t.f01.firma)}</dd></dl>
+      <fieldset style="border:0; padding:0 12px 12px; margin:0; display:grid; gap:8px">
+        <button class="btn ok big e-ok" type="button">Conforme: el papel coincide</button>
+        <div class="row"><select class="e-causal" aria-label="Causal de rechazo" style="flex:1; min-width:0; padding:8px; border:1px solid var(--rule); border-radius:var(--r); background:var(--panel)">${(t.round === 3 ? CAUSALES3 : CAUSALES).map(c => `<option>${esc(c)}</option>`).join('')}</select><button class="btn danger e-no" type="button">No conforme</button></div>
+      </fieldset></article>`,
+    (card, t) => {
+      $('.e-ok', card).onclick = () => { $('.e-ok', card).disabled = true; act(store.update(P.tr(), t.id, { status: 'aprobado', estadoAt: now(), doneAt: now() }), `${radLabel(t)} aprobado (+3).`); };
+      $('.e-no', card).onclick = () => { $('.e-no', card).disabled = true; act(store.update(P.tr(), t.id, { status: 'rechazado', causal: $('.e-causal', card).value, by: 'Estado', doneAt: now() }), `${radLabel(t)} rechazado.`); };
+    });
+  const empty = el.querySelector(':scope > .empty');
+  if (!q.length && !empty) el.insertAdjacentHTML('beforeend', `<p class="muted empty">${m.round === 2 || m.round === 3 ? 'No hay pasaportes esperando validación.' : 'La ventanilla abre en los niveles 2 y 3.'}</p>`);
+  if (q.length && empty) empty.remove();
+}
+
+/* ================= AUDITOR ================= */
+VIEWS.aud = root => {
+  let sel; try { sel = JSON.parse(lsGet('bsa-aud') || 'null'); } catch (e) {} if (!Array.isArray(sel) || !sel.length) sel = [0,1,2,3,4];
+  root.innerHTML = `<div class="phone" style="max-width:760px"><div class="card"><h3>Auditoría</h3><p class="sub">Elija las oficinas que usted vigila.</p><div class="office-filter" id="a-f"></div></div>
+    <div id="a-banner"></div>
+    <div class="card"><h3>Infracciones</h3><p class="sub">Cada toque resta 1 punto y aparece con sello rojo en el proyector.</p><div id="a-pen"></div></div>
+    <div class="card"><h3>Ventanilla del Estado</h3><p class="sub">Revise el pasaporte de papel. Si coincide con el formato, márquelo conforme: vale 3 puntos.</p><div id="a-q" class="stack"></div></div></div>`;
+  function filt(){ $('#a-f', root).innerHTML = [0,1,2,3,4].map(o => `<button class="btn ${sel.includes(o) ? 'on' : ''}" type="button" data-o="${o}" style="border-color:${oColor(o)}">O${o + 1}</button>`).join('');
+    $$('#a-f [data-o]', root).forEach(b => b.onclick = () => { const o = Number(b.dataset.o); sel = sel.includes(o) ? sel.filter(x => x !== o) : [...sel, o].sort(); if (!sel.length) sel = [o]; lsSet('bsa-aud', JSON.stringify(sel)); filt(); $('#a-q', root).innerHTML = ''; update(); }); }
+  filt();
+  function update(){ if (!S.main){ noGame($('#a-q', root)); return; } $$('#a-q > .card', root).forEach(e => e.remove()); circularBanner($('#a-banner', root)); penaltyGrid($('#a-pen', root), sel); estadoQueue($('#a-q', root), sel); }
+  return { update };
+};
+
+/* ================= MODERADOR ================= */
+VIEWS.mod = root => {
+  root.innerHTML = `<div class="mod">
+    <section class="card" id="m-round"></section>
+    <section class="card"><h3>Marcador</h3><p class="sub">En los niveles 1 a 3 puede sumar o restar pasaportes a mano, por ejemplo si se juega en papel.</p><div class="tbl-wrap" id="m-score"></div></section>
+    <section class="card" id="m-quiz" hidden></section>
+    <div class="mod-grid">
+      <section class="card"><h3>Circulares oficiales</h3><p class="sub">Aparecen a pantalla completa en el proyector y en los celulares. Sirven para mostrar los tres tipos de autoridad.</p>
+        <div class="circ-presets" id="m-circ"></div>
+        <form class="stack" id="m-circ-form" style="margin-top:14px"><div class="field"><label for="mc-t">Circular personalizada</label><textarea id="mc-t" placeholder="Texto de la circular"></textarea></div>
+          <div class="row"><input id="mc-f" placeholder="Firma (p. ej. El Despacho)" style="flex:1; min-width:0; padding:9px; border:1px solid var(--rule); border-radius:var(--r); background:var(--panel-2)"><button class="btn primary" type="submit">Emitir</button></div></form>
+        <div id="m-circ-cur" style="margin-top:12px"></div>
+        <div style="margin-top:14px; border-top:1px solid var(--rule); padding-top:12px"><span class="label">Herramientas del nivel 3</span><div class="row" style="margin-top:8px"><button class="btn" id="m-maint" type="button">Caída del sistema (30 s)</button></div></div>
+      </section>
+      <section class="card"><h3>Infracciones</h3><p class="sub">También las pueden marcar los auditores desde su celular.</p><div id="m-pen"></div><div id="m-penlog" style="margin-top:12px"></div></section>
+    </div>
+    <section class="card"><h3>Ventanilla del Estado</h3><p class="sub">Pasaportes con visto bueno que esperan validación. Confirme que el papel coincide con el formato.</p><div id="m-q" class="stack"></div></section>
+    <div class="mod-grid">
+      <section class="card" id="m-qc"></section>
+      <section class="card" id="m-set"></section>
+    </div>
+  </div>`;
+  let confirmReset = false, setKey = '', qcKey = '', demo = null;
+
+  $('#m-circ', root).innerHTML = CIRCULARES.map((c, i) => `<button class="btn circ-btn" type="button" data-c="${i}"><span class="code">${c.code}</span><span>${esc(c.text.length > 70 ? c.text.slice(0, 68) + '…' : c.text)}</span><small>${esc(c.tipo)} · ${esc(c.firma)}</small></button>`).join('');
+  $$('#m-circ [data-c]', root).forEach(b => b.onclick = () => { if (!S.main) return; const c = CIRCULARES[b.dataset.c]; act(M.circular(c), c.special ? 'Circular 004 emitida: los trámites en curso del nivel 3 quedaron anulados.' : `Circular ${c.code} emitida.`); });
+  $('#m-circ-form', root).onsubmit = ev => { ev.preventDefault(); const t = $('#mc-t', root).value.trim(); if (!t || !S.main) return;
+    const n = 6 + Math.floor(Math.random() * 90); act(M.circular({ code: pad(n), tipo: 'Circular del Despacho', firma: $('#mc-f', root).value.trim() || 'El Despacho', text: t }), 'Circular emitida.'); $('#mc-t', root).value = ''; };
+  $('#m-maint', root).onclick = () => S.main && act(M.up({ maintUntil: now() + 30000 }), 'Sistema caído durante 30 segundos.');
+
+  function roundCard(){
+    const el = $('#m-round', root), m = S.main;
+    if (!m){ el.innerHTML = `<h3>Partida</h3><p class="sub">${S.loaded ? 'Todavía no hay una partida creada.' : 'Conectando…'}</p>${S.loaded ? '<button class="btn primary big" id="m-create" type="button" style="max-width:320px">Crear partida</button>' : ''}`; const b = $('#m-create', el); if (b) b.onclick = () => act(M.create(), 'Partida creada.'); return; }
+    const c = clock(), R = ROUNDS[m.round];
+    const sig = [m.round, m.status, m.endsAt, m.remMs, m.durMs].join('|');
+    if (el.dataset.sig === sig) return; el.dataset.sig = sig;
+    el.innerHTML = `<h3>Rondas</h3><div class="rtabs">${Object.entries(ROUNDS).map(([k, v]) => `<button class="btn ${Number(k) === m.round ? 'cur' : ''}" type="button" data-r="${k}">${esc(v.short)}<small>${esc(v.sub)}</small></button>`).join('')}</div>
+      <div class="round-ctl"><div><span class="label">${esc(R.short)} · ${esc(R.label)}</span><div class="mclock" data-timer>${R.dur ? fmtClock(c.rem) : '—'}</div></div>
+      <div class="row">${R.dur ? (m.status === 'running' ? `<button class="btn" id="m-pause" type="button">Pausar</button>` : `<button class="btn primary" id="m-start" type="button" ${c.rem <= 0 ? 'disabled' : ''}>${m.status === 'idle' ? 'Iniciar ronda' : 'Reanudar'}</button>`)
+        + `<button class="btn" id="m-add" type="button">+1 min</button><button class="btn danger" id="m-end" type="button" ${c.rem <= 0 ? 'disabled' : ''}>Terminar ronda</button>` : `<span class="muted">${m.round === 4 ? 'Dirija el quiz en el panel de abajo.' : m.round === 5 ? 'El proyector reproduce la animación. Puede reiniciarla aquí.' : 'Pidan a cada oficina que asigne sus cargos.'}</span>${m.round === 5 ? '<button class="btn" id="m-replay" type="button">Reiniciar animación</button>' : ''}`}
+      ${m.round < 5 ? `<button class="btn ghost" id="m-next" type="button">Pasar a ${esc(ROUNDS[m.round + 1].short)} →</button>` : ''}</div></div>`;
+    $$('[data-r]', el).forEach(b => b.onclick = () => act(M.go(Number(b.dataset.r))));
+    const on = (id, fn) => { const b = $('#' + id, el); if (b) b.onclick = fn; };
+    on('m-start', () => act(M.start())); on('m-pause', () => act(M.pause())); on('m-add', () => act(M.addMin())); on('m-end', () => act(M.finish()));
+    on('m-next', () => act(M.go(m.round + 1))); on('m-replay', () => act(M.up({ reportNonce: now() })));
+  }
+  function scoreCard(){
+    const el = $('#m-score', root), m = S.main; if (!m){ el.innerHTML = ''; return; }
+    const A = agg(S), adj = [1,2,3].includes(m.round);
+    el.innerHTML = `<table class="score"><thead><tr><th>Oficina</th><th>N1 entregados</th><th>N2 aprobados</th><th>N3 aprobados</th><th>Infracciones</th><th>Quiz</th><th>Total</th>${adj ? `<th>Ajuste ${esc(ROUNDS[m.round].short)}</th>` : ''}</tr></thead><tbody>
+      ${A.rows.map(r => `<tr><td><span class="oname"><span class="swatch" style="background:${oColor(r.o)}"></span>${esc(oName(r.o))}</span></td><td>${r.r[1].ok}</td><td>${r.r[2].ok}</td><td>${r.r[3].ok}</td><td>−${r.pen}</td><td>${r.quiz}</td><td class="total">${r.pts}</td>${adj ? `<td><div class="row" style="justify-content:flex-end; flex-wrap:nowrap"><button class="btn sm" type="button" data-adj="-1" data-o="${r.o}" aria-label="Restar un pasaporte">−1</button><button class="btn sm" type="button" data-adj="1" data-o="${r.o}" aria-label="Sumar un pasaporte">+1</button></div></td>` : ''}</tr>`).join('')}</tbody></table>`;
+    $$('[data-adj]', el).forEach(b => b.onclick = () => act(store.set(P.aj(), uid(), { office: Number(b.dataset.o), round: S.main.round, delta: Number(b.dataset.adj), at: now() })));
+  }
+  function circCur(){
+    const el = $('#m-circ-cur', root), c = S.main && S.main.circular;
+    el.innerHTML = c ? `<div class="banner"><b>VIGENTE: CIRCULAR ${esc(c.code)}</b> · ${esc(c.tipo)}<br>${esc(c.text)}</div><button class="btn sm ghost" id="m-circ-off" type="button" style="margin-top:6px">Retirar circular</button>` : '';
+    const b = $('#m-circ-off', el); if (b) b.onclick = () => act(M.up({ circular: null }));
+  }
+  function penLog(){
+    const el = $('#m-penlog', root); const last = [...S.pen].sort((a, b) => b.at - a.at).slice(0, 6);
+    el.innerHTML = last.length ? `<span class="label">Últimas infracciones</span><div class="tlist" style="margin-top:6px">${last.map(p => `<div class="titem"><span><span class="swatch" style="background:${oColor(p.office)}"></span> ${esc(PEN[p.type] ? PEN[p.type].label : p.type)}</span><button class="btn sm ghost" type="button" data-unpen="${p.id}">Anular</button><div class="meta">${esc(oName(p.office))} · ${hhmm(p.at)}</div></div>`).join('')}</div>` : '';
+    $$('[data-unpen]', el).forEach(b => b.onclick = () => act(store.del(P.pen(), b.dataset.unpen), 'Infracción anulada.'));
+  }
+  function quizCard(){
+    const el = $('#m-quiz', root), m = S.main;
+    el.hidden = !m || m.round !== 4; if (el.hidden) return;
+    const qi = m.quiz.i, Q = QUIZ[qi], open = m.quiz.openedAt > 0;
+    el.innerHTML = `<h3>Quiz · Pregunta ${Math.min(qi + 1, QUIZ.length)} de ${QUIZ.length}</h3>
+      ${Q ? `<p style="font-size:18px; font-weight:700">${esc(Q.q)}</p><p class="muted">Correcta: ${'ABCD'[Q.ok]}. ${esc(Q.o[Q.ok])}</p>
+      <div class="row" style="margin:12px 0">
+        ${!open ? `<button class="btn primary" id="q-open" type="button">Abrir pregunta (20 s)</button>` : ''}
+        ${open && !m.quiz.reveal ? `<button class="btn primary" id="q-rev" type="button">Revelar respuesta</button>` : ''}
+        ${m.quiz.reveal && qi < QUIZ.length - 1 ? `<button class="btn primary" id="q-next" type="button">Siguiente pregunta →</button>` : ''}
+        ${m.quiz.reveal && qi === QUIZ.length - 1 ? `<button class="btn primary" id="q-end" type="button">Ir al Informe del Estado →</button>` : ''}
+        ${qi > 0 ? `<button class="btn ghost" id="q-prev" type="button">← Anterior</button>` : ''}
+      </div>
+      <span class="label">Respuestas por oficina (puede registrarlas a mano)</span>
+      ${[0,1,2,3,4].map(o => { const a = S.ans.find(x => x.office === o && x.q === qi); return `<div class="qrow"><span class="oname"><span class="swatch" style="background:${oColor(o)}"></span>${esc(oName(o))}</span><div class="qopts">${[0,1,2,3].map(i => `<button class="btn sm ${a && a.opt === i ? 'sel' : ''}" type="button" data-qa="${i}" data-o="${o}">${'ABCD'[i]}</button>`).join('')}</div></div>`; }).join('')}` : '<p>El quiz terminó.</p>'}`;
+    const on = (id, fn) => { const b = $('#' + id, el); if (b) b.onclick = fn; };
+    on('q-open', () => act(M.up({ quiz: { i: qi, openedAt: now(), reveal: false } })));
+    on('q-rev', () => act(M.up({ quiz: { reveal: true } })));
+    on('q-next', () => act(M.up({ quiz: { i: qi + 1, openedAt: now(), reveal: false } })));
+    on('q-prev', () => act(M.up({ quiz: { i: qi - 1, openedAt: 0, reveal: false } })));
+    on('q-end', () => act(M.go(5)));
+    $$('[data-qa]', el).forEach(b => b.onclick = () => { const o = Number(b.dataset.o); act(store.set(P.ans(), `${qi}_${o}`, { office: o, q: qi, opt: Number(b.dataset.qa), ms: m.quiz.openedAt ? Math.min(QUIZ_MS, now() - m.quiz.openedAt) : QUIZ_MS / 2, at: now(), manual: true })); });
+  }
+  function qcCard(){
+    const el = $('#m-qc', root), m = S.main; if (!m){ el.innerHTML = ''; qcKey = ''; return; }
+    if (qcKey === m.sid) return; qcKey = m.sid;
+    el.innerHTML = `<h3>Control de calidad del nivel 1</h3><p class="sub">Al terminar el nivel 1, revisen los pasaportes entregados y cuenten cuántos cumplen el formato. El dato alimenta el informe final; no cambia los puntos.</p>
+      <form id="qc-f" class="stack">${[0,1,2,3,4].map(o => `<div class="qrow"><label for="qc-${o}" class="oname"><span class="swatch" style="background:${oColor(o)}"></span>${esc(oName(o))}</label><input id="qc-${o}" type="number" min="0" inputmode="numeric" value="${Array.isArray(m.qc) && m.qc[o] != null ? esc(m.qc[o]) : ''}" style="width:90px; padding:8px; border:1px solid var(--rule); border-radius:var(--r); background:var(--panel-2); font-family:var(--f-mono)"></div>`).join('')}
+      <button class="btn primary" type="submit">Guardar conformes</button></form>`;
+    $('#qc-f', el).onsubmit = ev => { ev.preventDefault(); const v = [0,1,2,3,4].map(o => { const x = $('#qc-' + o, el).value; return x === '' ? null : Math.max(0, Number(x)); }); act(M.up({ qc: v }), 'Control de calidad guardado.'); };
+  }
+  function setCard(){
+    const el = $('#m-set', root), m = S.main;
+    const k = (m ? m.sid : 'none') + '|' + confirmReset + '|' + store.mode;
+    if (setKey === k) return; setKey = k;
+    el.innerHTML = `<h3>Ajustes</h3>${m ? `<form id="set-f" class="stack">
+      ${[0,1,2,3,4].map(o => `<div class="field"><label for="nm-${o}"><span class="swatch" style="background:${oColor(o)}"></span> Nombre de la oficina ${o + 1}</label><input id="nm-${o}" value="${esc(oName(o))}"></div>`).join('')}
+      <div class="field"><label for="set-qr">Enlace del juego para el código QR</label><span class="hint">Pegue aquí el enlace que comparte con los celulares. El proyector lo muestra como QR en la sala de espera.</span><input id="set-qr" value="${esc(m.qrLink || '')}" placeholder="https://claude.ai/…"></div>
+      <div class="field"><label for="set-bda">Premio «Burócrata del año»</label><span class="hint">El cargo y la oficina de quien más siguió (o exageró) las reglas. Sale al final del informe.</span><input id="set-bda" value="${esc(m.burocrata || '')}" placeholder="Archivista de la Oficina 3"></div>
+      <button class="btn primary" type="submit">Guardar ajustes</button></form>` : ''}
+      <div style="border-top:1px solid var(--rule); margin-top:16px; padding-top:14px" class="stack">
+        <button class="btn" id="set-demo" type="button">Ensayar el informe con datos de ejemplo</button>
+        <button class="btn" id="set-mode" type="button">${store.mode === 'local' ? 'Volver al modo en vivo' : 'Cambiar a modo local (sin internet)'}</button>
+        ${m ? (confirmReset ? `<div class="confirm-row"><span>Se borrarán puntos, trámites e infracciones de esta partida.</span><button class="btn danger sm" id="set-reset-ok" type="button">Sí, reiniciar</button><button class="btn sm" id="set-reset-no" type="button">Cancelar</button></div>` : `<button class="btn danger" id="set-reset" type="button">Reiniciar partida</button>`) : ''}
+      </div>`;
+    const f = $('#set-f', el);
+    if (f) f.onsubmit = ev => { ev.preventDefault(); act(M.up({ names: [0,1,2,3,4].map(o => $('#nm-' + o, el).value.trim() || DEFAULT_NAMES[o]), qrLink: $('#set-qr', el).value.trim(), burocrata: $('#set-bda', el).value.trim() }), 'Ajustes guardados.'); };
+    $('#set-demo', el).onclick = () => { demo && demo.destroy(); const wrap = document.createElement('div'); document.body.appendChild(wrap); demo = Report(wrap, sampleData(), { demo: true, fixed: true, onClose: () => { demo = null; } }); };
+    $('#set-mode', el).onclick = () => { lsSet('bsa-pref-local', store.mode === 'local' ? null : '1'); location.reload(); };
+    const on = (id, fn) => { const b = $('#' + id, el); if (b) b.onclick = fn; };
+    on('set-reset', () => { confirmReset = true; setCard(); });
+    on('set-reset-no', () => { confirmReset = false; setCard(); });
+    on('set-reset-ok', async () => { confirmReset = false; await act(M.create(), 'Partida nueva creada.'); setCard(); });
+  }
+  function update(){
+    roundCard(); scoreCard(); circCur(); quizCard(); qcCard(); setCard();
+    if (S.main){ penaltyGrid($('#m-pen', root), [0,1,2,3,4]); penLog(); estadoQueue($('#m-q', root), [0,1,2,3,4]); }
+  }
+  return { update, tick(){ if (S.main){ const c = clock(); const t = $('#m-round [data-timer]', root); if (t && ROUNDS[S.main.round].dur) t.textContent = fmtClock(c.rem); if (c.done && $('#m-end', root) && !$('#m-end', root).disabled){ $('#m-round', root).dataset.sig = ''; roundCard(); } } },
+    destroy(){ demo && demo.destroy(); } };
+};
+
+/* ================= PROYECTOR ================= */
+VIEWS.proj = root => {
+  root.innerHTML = `<div class="proj"><header class="p-head"><div class="p-brand">${sealSVG('sp')}<div><b>Burocracia S.A.</b><small>Ministerio de Trámites</small></div></div><div class="p-round" id="p-round"></div><div class="p-timer" id="p-timer"></div></header>
+    <div class="p-body" id="p-body"></div><div id="p-ticker"></div>
+    <div class="p-tools"><button class="btn sm" id="p-sound" type="button">Activar sonido</button><button class="btn sm" id="p-fs" type="button">Pantalla completa</button><button class="btn sm" id="p-exit" type="button">Salir</button></div></div>`;
+  $('#p-sound', root).onclick = e => { Sound.enable(); Sound.ding(); e.target.textContent = Sound.on ? 'Sonido activo' : 'Sin sonido'; };
+  $('#p-fs', root).onclick = () => { try { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() => toast('Este navegador no permite pantalla completa aquí.')); } catch (e) {} };
+  $('#p-exit', root).onclick = () => setRole({ role: 'home' });
+  let bodyKey = '', report = null, lastCirc = null, prevOk = null, prevStatus = null, wasRunning = false, timeupShown = false;
+  const boot = now();
+  const stampQ = []; let stamping = false;
+  const ov = $('#overlays');
+
+  function showStamp(p){ stampQ.push(p); if (!stamping) nextStamp(); }
+  function nextStamp(){ const p = stampQ.shift(); if (!p){ stamping = false; return; } stamping = true;
+    const d = document.createElement('div'); d.className = 'ov'; const P_ = PEN[p.type] || { label: p.type, principio: '' };
+    d.innerHTML = `<div class="stampbox"><div class="stamp big">Infracción<span class="sub">${esc(oName(p.office))} · −1</span></div><div class="stamp-reason">${esc(P_.label)}<small>Viola: ${esc(P_.principio)}</small></div></div>`;
+    ov.appendChild(d); Sound.stamp(); setTimeout(() => Sound.buzz(), 180);
+    setTimeout(() => { d.remove(); nextStamp(); }, 2800); }
+  function showCircular(c){ const d = document.createElement('div'); d.className = 'ov';
+    d.innerHTML = `<div class="circ-doc"><span class="label">${esc(c.tipo)}</span><h2>Circular ${esc(c.code)}</h2><p class="txt">${esc(c.text)}</p><div class="firma"><span>Firma: ${esc(c.firma)}</span><span>${hhmm(c.at)}</span></div></div>`;
+    ov.appendChild(d); Sound.chime(); const close = () => d.remove(); d.onclick = close; setTimeout(close, 12000); }
+
+  function head(){
+    const m = S.main, R = m ? ROUNDS[m.round] : ROUNDS[0];
+    $('#p-round', root).innerHTML = m && m.round >= 1 && m.round <= 3 ? `<div class="lvl">${esc(R.short)} · ${R.pts} pt${R.pts > 1 ? 's' : ''} por pasaporte</div><div class="name">${esc(R.label)}</div>` : `<div class="lvl">${esc(R.short)}</div><div class="name">${esc(R.label)}</div>`;
+    timer();
+  }
+  function timer(){
+    const m = S.main, el = $('#p-timer', root);
+    if (!m || !ROUNDS[m.round].dur){ el.innerHTML = ''; return; }
+    const c = clock();
+    el.className = 'p-timer' + (c.running && c.rem < 30000 ? ' low' : '');
+    el.innerHTML = `${fmtClock(c.rem)}<small>${c.idle ? 'Lista para iniciar' : c.running ? 'En curso' : c.rem <= 0 ? 'Tiempo terminado' : 'En pausa'}</small>`;
+  }
+  function lobby(body){
+    const m = S.main;
+    body.innerHTML = `<div class="lobby"><div><h2>Bienvenidos al Ministerio de Trámites</h2>
+      <div class="how">
+        <div><b>Nivel 1</b><span>Sin reglas: hagan todos los pasaportes que puedan. 1 punto cada uno.</span></div>
+        <div><b>Nivel 2</b><span>Burocracia de Weber: cargos, formatos F-01 y F-02, jerarquía. 3 puntos por pasaporte aprobado.</span></div>
+        <div><b>Nivel 3</b><span>Burocracia extrema: F-03, F-27B, turnos, triple firma y circulares. 3 puntos… si lo logran.</span></div>
+        <div><b>Cierre</b><span>Quiz de la teoría y el Informe del Estado con los resultados.</span></div>
+      </div>
+      <p class="muted" style="margin-top:14px; font-size:18px">Cargos por oficina: ${CARGOS.join(' · ')}.</p></div>
+      <div class="stack"><div class="offices">${[0,1,2,3,4].map(o => `<div style="--oc:${oColor(o)}"><span class="mono muted">O${o + 1}</span>${esc(oName(o))}</div>`).join('')}</div>
+      ${m && m.qrLink ? `<div class="row" style="gap:16px; align-items:center"><div class="qrbox" id="p-qr"></div><p style="font-size:18px; max-width:24ch">Directores y Jefes: escaneen para abrir su formulario.</p></div>` : ''}</div></div>`;
+    const q = $('#p-qr', body); if (q && window.QRCode){ try { new window.QRCode(q, { text: m.qrLink, width: 200, height: 200, colorDark: '#17202A', colorLight: '#ffffff' }); } catch (e) {} }
+  }
+  function board(body){
+    body.innerHTML = `<div class="board"><div class="lb" id="p-lb"></div><div class="side"><div class="rulecard" id="p-rule"></div><div id="p-turno"></div><div><span class="label">Ventanilla</span><div class="feed" id="p-feed" style="margin-top:6px"></div></div></div></div>`;
+    const r = S.main.round;
+    $('#p-rule', body).innerHTML = `<span class="label">Qué cuenta en este nivel</span><p>${r === 1 ? 'Sin formatos, sin jefes, sin revisión. Cada pasaporte entregado vale <b>1 punto</b>.' : r === 2 ? 'Solo cuenta si pasa el F-01 del Director, el F-02 del Jefe y la validación del Estado. Vale <b>3 puntos</b>.' : 'F-01 + F-03 + F-27B, espera de turno, visto bueno del Jefe, de Dirección y del Estado. Vale <b>3 puntos</b>… si lo logran.'}</p>`;
+  }
+  function boardData(){
+    const m = S.main, r = m.round, A = agg(S);
+    const rows = [...A.rows].sort((a, b) => b.pts - a.pts || a.o - b.o);
+    const lb = $('#p-lb', root); if (!lb) return;
+    lb.innerHTML = rows.map((x, i) => `<div class="lb-row ${i === 0 && x.pts > 0 ? 'lead' : ''}" style="--oc:${oColor(x.o)}"><span class="rank">${i + 1}</span><div class="nm">${esc(oName(x.o))}<small>${x.pen ? x.pen + ' infracci' + (x.pen === 1 ? 'ón' : 'ones') : 'Sin infracciones'}</small></div>
+      <div class="num"><b data-ok="${x.o}">${x.r[r].ok}</b><small>${r === 1 ? 'Entregados' : 'Aprobados'}</small></div><div class="num"><b>${x.pts}</b><small>Puntos</small></div></div>`).join('');
+    const okNow = A.rows.map(x => x.r[r].ok);
+    if (prevOk && prevOk.r === r){ okNow.forEach((v, o) => { if (v > prevOk.v[o]){ const b = $(`[data-ok="${o}"]`, lb); if (b){ b.classList.add('bump'); } if (r > 1) Sound.ding(); } }); }
+    prevOk = { r, v: okNow };
+    const feed = $('#p-feed', root);
+    const ev = S.tramites.filter(t => t.round === r).map(t => ({ t, at: Math.max(t.doneAt || 0, t.dirAt || 0, t.jefeAt || 0, t.createdAt || 0) })).sort((a, b) => b.at - a.at).slice(0, 6);
+    feed.innerHTML = ev.length ? ev.map(({ t }) => `<div><span class="mono" style="color:${oColor(t.office)}">${t.kind === 'tap' ? 'O' + (t.office + 1) : esc(radLabel(t))}</span><span>${t.kind === 'tap' ? 'Pasaporte entregado' : t.status === 'radicado' ? 'Radicado' + (r === 3 ? ', turno ' + t.turno : '') : t.status === 'visto_bueno' ? 'Visto bueno del Jefe' : t.status === 'visto_direccion' ? 'Visto bueno de Dirección' : t.status === 'aprobado' ? '<b>Aprobado por el Estado</b>' : t.status === 'anulado' ? 'Anulado por circular' : (t.status === 'devuelto' ? 'Devuelto: ' : 'Rechazado: ') + esc(t.causal || '')}</span></div>`).join('') : '<p class="muted">Todavía no hay movimientos.</p>';
+    turnoBox();
+  }
+  function turnoBox(){ const el = $('#p-turno', root); if (!el) return; el.innerHTML = S.main.round === 3 ? `<div class="turno"><div><span class="label" style="color:inherit">Turno actual</span><div style="opacity:.75">Avanza uno cada ${TURNO_MS / 1000} segundos</div></div><b>${turnoActual()}</b></div>` : ''; }
+  function quizView(body){
+    const m = S.main, qi = m.quiz.i, Q = QUIZ[qi];
+    if (!Q){ body.innerHTML = '<div class="pquiz"><h2>Fin del quiz</h2></div>'; return; }
+    const rev = m.quiz.reveal;
+    const A = agg(S);
+    body.innerHTML = `<div class="pquiz"><span class="qn">Pregunta ${qi + 1} de ${QUIZ.length}</span><h2>${esc(Q.q)}</h2>
+      <div class="qgrid">${Q.o.map((t, i) => `<div class="qopt ${rev ? (i === Q.ok ? 'right' : 'wrong') : ''}"><span class="lt">${'ABCD'[i]}</span><span>${esc(t)}</span></div>`).join('')}</div>
+      ${rev ? `<div class="why">${esc(Q.why)}</div>` : ''}
+      <div class="qfoot"><div class="qcount" id="p-qc"></div><div class="answered">${[0,1,2,3,4].map(o => { const a = S.ans.find(x => x.office === o && x.q === qi); const ok = rev && a && a.opt === Q.ok;
+        return `<span class="${a ? 'yes' : ''}" style="--oc:${oColor(o)}"><span class="swatch" style="background:${oColor(o)}"></span>${esc(oName(o))}${rev ? (a ? ' · ' + 'ABCD'[a.opt] + (ok ? ' +' + (10 + bonus(a.ms)) : '') : ' · sin respuesta') : ''}</span>`; }).join('')}</div></div></div>`;
+    quizTick();
+  }
+  function quizTick(){ const el = $('#p-qc', root); if (!el || !S.main) return; const q = S.main.quiz;
+    el.textContent = !q.openedAt ? '—' : q.reveal ? '✓' : Math.max(0, Math.ceil((QUIZ_MS - (now() - q.openedAt)) / 1000)); }
+  function ticker(){
+    const el = $('#p-ticker', root), m = S.main;
+    if (m && m.maintUntil > now()){ el.className = 'p-ticker maint'; el.innerHTML = `<b>SISTEMA EN MANTENIMIENTO</b><span>Vuelva en ${Math.ceil((m.maintUntil - now()) / 1000)} segundos. Ningún trámite avanza.</span>`; return; }
+    const c = m && m.circular;
+    if (c && now() - c.at < 6 * 60000){ el.className = 'p-ticker'; el.innerHTML = `<b>CIRCULAR ${esc(c.code)}</b><span>${esc(c.text)} — ${esc(c.firma)}</span>`; }
+    else { el.className = ''; el.innerHTML = ''; }
+  }
+  function update(kind){
+    const body = $('#p-body', root), m = S.main;
+    if (!m){ bodyKey = ''; noGame(body); head(); return; }
+    head(); ticker();
+    const key = m.sid + '|' + m.round + (m.round === 5 ? '|' + m.reportNonce : '') + (m.round === 0 ? '|' + (m.names || []).join() + m.qrLink : '');
+    if (key !== bodyKey){ bodyKey = key; report && report.destroy(); report = null; prevOk = null; body.innerHTML = '';
+      if (m.round === 0) lobby(body);
+      else if (m.round <= 3) board(body);
+      else if (m.round === 5){ const wrap = document.createElement('div'); body.appendChild(wrap); report = Report(wrap, S, { live: true }); }
+    }
+    if (m.round >= 1 && m.round <= 3) boardData();
+    if (m.round === 4) quizView(body);
+    // circulares nuevas
+    if (m.circular && m.circular.at !== (lastCirc && lastCirc.at)){ if (lastCirc !== null && m.circular.at > boot - 2000) showCircular(m.circular); }
+    lastCirc = m.circular || { at: 0 };
+    // infracciones nuevas
+    if (kind === 'pen' || kind === 'all'){ if (seenPen === null) seenPen = new Set(S.pen.map(p => p.id)); else for (const p of S.pen) if (!seenPen.has(p.id)){ seenPen.add(p.id); if (p.at > boot - 3000) showStamp(p); } }
+    // sonido de inicio
+    const st = m.round + m.status; if (prevStatus !== null && st !== prevStatus && m.status === 'running') Sound.start(); prevStatus = st;
+  }
+  return { update, tick(){
+    if (!S.main) return; timer(); ticker(); quizTick();
+    const m = S.main; if (m.round === 3) turnoBox();
+    const c = clock();
+    if (c.running){ wasRunning = true; timeupShown = false; }
+    else if (wasRunning && c.rem <= 0 && !timeupShown && ROUNDS[m.round].dur){ timeupShown = true; wasRunning = false; Sound.buzz();
+      const d = document.createElement('div'); d.className = 'ov'; d.innerHTML = '<div class="stamp big">Tiempo<span class="sub">Se cierra la ventanilla</span></div>'; ov.appendChild(d); setTimeout(() => d.remove(), 3200); }
+  }, destroy(){ report && report.destroy(); ov.innerHTML = ''; } };
+};
+let seenPen = null;
+
+/* ================= INFORME DEL ESTADO (animación) ================= */
+function niceMax(v){ if (v <= 4) return 4; const raw = v / 4, p = Math.pow(10, Math.floor(Math.log10(raw))), n = raw / p; const s = (n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10) * p; return Math.ceil(v / s) * s; }
+function topBar(x, y, w, h, r){ if (h <= 0) return ''; r = Math.min(r, h, w / 2); return `M${x},${y + h}V${y + r}Q${x},${y} ${x + r},${y}H${x + w - r}Q${x + w},${y} ${x + w},${y + r}V${y + h}Z`; }
+function countUp(el, to, dur = 1400, delay = 0, dec = 0){
+  const start = performance.now() + delay; let raf;
+  const step = t => { const k = Math.min(1, Math.max(0, (t - start) / dur)); const e = 1 - Math.pow(1 - k, 3); el.textContent = (to * e).toFixed(dec).replace('.', ','); if (k < 1) raf = requestAnimationFrame(step); };
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){ el.textContent = to.toFixed(dec).replace('.', ','); return () => {}; }
+  raf = requestAnimationFrame(step); return () => cancelAnimationFrame(raf);
+}
+function confetti(host){
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return () => {};
+  const cv = document.createElement('canvas'); cv.className = 'confetti'; host.appendChild(cv);
+  const ctx = cv.getContext('2d'), W = cv.width = host.clientWidth * devicePixelRatio, H = cv.height = host.clientHeight * devicePixelRatio;
+  const cols = [1,2,3,4,5].map(i => getComputedStyle(document.documentElement).getPropertyValue('--o' + i).trim() || '#2a78d6');
+  const ps = Array.from({ length: 180 }, () => ({ x: W / 2 + (Math.random() - .5) * W * .3, y: H * .45, vx: (Math.random() - .5) * 26, vy: -Math.random() * 30 - 8, r: Math.random() * Math.PI, vr: (Math.random() - .5) * .3, s: (6 + Math.random() * 8) * devicePixelRatio, c: cols[Math.floor(Math.random() * 5)] }));
+  let raf, t0 = performance.now();
+  const step = t => { ctx.clearRect(0, 0, W, H); for (const p of ps){ p.vy += .9; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr; ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.fillStyle = p.c; ctx.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2); ctx.restore(); }
+    if (t - t0 < 5000) raf = requestAnimationFrame(step); else cv.remove(); };
+  raf = requestAnimationFrame(step); return () => { cancelAnimationFrame(raf); cv.remove(); };
+}
+function Report(host, D, opts = {}){
+  const SCENES = [{ id: 'title', dur: 6 }, { id: 'prod', dur: 18 }, { id: 'paper', dur: 18 }, { id: 'curve', dur: 16 }, { id: 'wm', dur: 18 }, { id: 'podium', dur: 0 }];
+  let idx = 0, timer = null, paused = false, cleanups = [];
+  host.className = 'report' + (opts.fixed ? ' fixed' : '');
+  host.innerHTML = `<div class="rp-top"><div class="row"><span class="label">Informe del Estado · Resolución de cierre</span>${opts.demo ? '<span class="demo">Ensayo con datos de ejemplo</span>' : ''}</div>${opts.fixed ? '<button class="btn sm" type="button" data-close>Cerrar ensayo</button>' : ''}</div>
+    <div class="rp-stage"></div>
+    <div class="rp-ctl"><button class="btn sm" type="button" data-prev aria-label="Escena anterior">← Anterior</button><button class="btn sm" type="button" data-pause>Pausar</button><div class="dots">${SCENES.map(() => '<span></span>').join('')}</div><button class="btn sm" type="button" data-next aria-label="Escena siguiente">Siguiente →</button></div>`;
+  const stage = $('.rp-stage', host);
+  const data = () => agg(typeof D === 'function' ? D() : D);
+  function clean(){ cleanups.forEach(f => { try { f(); } catch (e) {} }); cleanups = []; }
+  function show(i){
+    idx = Math.max(0, Math.min(SCENES.length - 1, i)); clean(); clearTimeout(timer);
+    $$('.dots span', host).forEach((s, k) => s.classList.toggle('on', k <= idx));
+    const sc = document.createElement('div'); sc.className = 'scene'; stage.innerHTML = ''; stage.appendChild(sc);
+    const A = data(); BUILD[SCENES[idx].id](sc, A);
+    const d = SCENES[idx].dur; if (d && !paused) timer = setTimeout(() => show(idx + 1), d * 1000);
+  }
+  const BUILD = {
+    title(sc){ sc.classList.add('title-scene'); sc.innerHTML = `${sealSVG('srp')}<h2>Informe del Estado</h2><div class="stamp">Resultados oficiales</div><p class="lead muted">Lo que pasó en las tres oficinas de este Ministerio, nivel por nivel.</p>`; setTimeout(() => Sound.stamp(), 1500); },
+    prod(sc, A){
+      const v = r => A.rows.map(x => x.r[r].ok), T = r => v(r).reduce((a, b) => a + b, 0);
+      const vals = [v(1), v(2), v(3)], max = niceMax(Math.max(1, ...vals.flat()));
+      const W = 1000, H = 440, pl = 44, pr = 10, pt = 34, pb = 78, gw = (W - pl - pr) / 3, gap = 6, bw = Math.min(46, (gw - 50 - gap * 4) / 5), ih = H - pt - pb;
+      const glab = ['Nivel 1 · Sin burocracia', 'Nivel 2 · Weber', 'Nivel 3 · Extrema'], gsub = ['pasaportes entregados', 'pasaportes aprobados', 'pasaportes aprobados'];
+      let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Pasaportes por oficina en cada nivel">`;
+      for (let i = 0; i <= 4; i++){ const y = pt + ih * (1 - i / 4); s += `<line class="grid" x1="${pl}" x2="${W - pr}" y1="${y}" y2="${y}"/><text class="tick" x="${pl - 8}" y="${y + 5}" text-anchor="end">${+(max * i / 4).toFixed(1)}</text>`; }
+      s += `<line class="base" x1="${pl}" x2="${W - pr}" y1="${pt + ih}" y2="${pt + ih}"/>`;
+      vals.forEach((row, gi) => { const gx = pl + gw * gi + (gw - (5 * bw + 4 * gap)) / 2;
+        row.forEach((val, oi) => { const h = ih * val / max, x = gx + oi * (bw + gap), y = pt + ih - h, d = (gi * 1.1 + oi * .12).toFixed(2) + 's';
+          s += `<g class="bar" style="--d:${d}"><title>${esc(oName(oi, A.m))} · ${glab[gi]}: ${val}</title><path d="${topBar(x, y, bw, h, 4)}" fill="var(--o${oi + 1})"/><text class="val" x="${x + bw / 2}" y="${y - 8}" text-anchor="middle" style="--d:${d}">${val}</text><text class="otag" x="${x + bw / 2}" y="${pt + ih + 18}" text-anchor="middle">O${oi + 1}</text></g>`; });
+        s += `<text class="glabel" x="${pl + gw * gi + gw / 2}" y="${H - 30}" text-anchor="middle">${glab[gi]}</text><text class="gsub" x="${pl + gw * gi + gw / 2}" y="${H - 10}" text-anchor="middle">${T(gi + 1)} ${gsub[gi]}</text>`; });
+      s += '</svg>';
+      const qcLine = A.qcGiven ? ` En el control de calidad, solo ${A.rows.reduce((a, x) => a + x.r[1].valid, 0)} de los ${T(1)} pasaportes del nivel 1 cumplían el formato.` : '';
+      sc.innerHTML = `<span class="kicker">1 · Producción por nivel</span><h2>${T(1)} sin control, ${T(2)} con reglas, ${T(3)} con exceso de reglas</h2>
+        <div class="legend">${[0,1,2,3,4].map(o => `<span><span class="swatch" style="background:${oColor(o)}"></span>O${o + 1} · ${esc(oName(o, A.m))}</span>`).join('')}</div>${s}<p class="lead">El caos produce cantidad; la burocracia de Weber produce orden y calidad; el exceso de reglas casi no produce nada.${qcLine}</p>`;
+    },
+    paper(sc, A){
+      const F = r => A.rows.reduce((a, x) => a + x.r[r].forms, 0), V = r => A.rows.reduce((a, x) => a + x.r[r].valid, 0);
+      const maxF = Math.max(1, F(1), F(2), F(3)), maxV = Math.max(1, V(1), V(2), V(3));
+      const totF = F(1) + F(2) + F(3), qMin = A.rows.reduce((a, x) => a + x.r[3].queueMs, 0) / 60000, bad = A.rows.reduce((a, x) => a + x.r[2].bad + x.r[3].bad, 0);
+      const lbl = ['Nivel 1', 'Nivel 2', 'Nivel 3'];
+      sc.innerHTML = `<span class="kicker">2 · Papeleo contra resultados</span><h2>Más formularios, menos pasaportes</h2>
+        <div class="pv">${[1,2,3].map((r, ci) => { const ns = Math.round(F(r) / maxF * 26), np = Math.round(V(r) / maxV * 20);
+          return `<div class="pv-col"><div class="pv-stacks"><div class="tower" aria-hidden="true">${Array.from({ length: ns }, (_, i) => `<div class="sheet" style="bottom:${i * 9}px; transform:rotate(${((i * 37) % 7) - 3}deg); animation-delay:${(ci * 1.6 + i * .06).toFixed(2)}s"></div>`).join('')}</div>
+            <div class="pile" aria-hidden="true">${Array.from({ length: np }, (_, i) => `<div class="pass" style="animation-delay:${(ci * 1.6 + .4 + i * .05).toFixed(2)}s"></div>`).join('')}</div></div>
+            <div class="pv-nums"><span>Formularios <b data-cu="${F(r)}" data-dl="${ci * 1600}">0</b></span><span>Pasaportes válidos <b data-cu="${V(r)}" data-dl="${ci * 1600 + 400}">0</b></span></div><div class="pv-label">${lbl[ci]}</div></div>`; }).join('')}</div>
+        <div class="tiles"><div class="tile"><b data-cu="${totF}" data-dl="5200">0</b><span>formularios llenados en total</span></div><div class="tile"><b data-cu="${qMin.toFixed(1)}" data-dec="1" data-dl="5600">0</b><span>minutos de trámites esperando en cola en el nivel 3</span></div><div class="tile"><b data-cu="${bad}" data-dl="6000">0</b><span>trámites devueltos, rechazados o anulados</span></div></div>`;
+      $$('[data-cu]', sc).forEach(b => cleanups.push(countUp(b, Number(b.dataset.cu), 1400, Number(b.dataset.dl || 0), Number(b.dataset.dec || 0))));
+    },
+    curve(sc, A){
+      const mins = r => durOf(A.m, r) / 60000, V = r => A.rows.reduce((a, x) => a + x.r[r].valid, 0);
+      const eff = [1,2,3].map(r => V(r) / Math.max(.1, mins(r)));
+      const fpp = [2,3].map(r => { const f = A.rows.reduce((a, x) => a + x.r[r].forms, 0), v = V(r); return v ? f / v : null; });
+      const W = 1000, H = 400, pl = 54, pr = 40, pt = 60, pb = 70, ih = H - pt - pb, max = niceMax(Math.max(.5, ...eff) * 1.1);
+      const xs = [0,1,2].map(i => pl + 90 + i * ((W - pl - pr - 180) / 2)), ys = eff.map(v => pt + ih * (1 - v / max));
+      const path = `M${xs[0]},${ys[0]} C${xs[0] + 140},${ys[0]} ${xs[1] - 140},${ys[1]} ${xs[1]},${ys[1]} S${xs[2] - 140},${ys[2]} ${xs[2]},${ys[2]}`;
+      const ann = [['Caos', A.qcGiven ? 'Mucho, pero sin control' : 'Mucho, sin control de calidad'], ['Weber', 'Orden, reglas y calidad'], ['Exceso', 'Las reglas se comen el objetivo']];
+      let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Pasaportes válidos por minuto en cada nivel">`;
+      for (let i = 0; i <= 4; i++){ const y = pt + ih * (1 - i / 4); s += `<line class="grid" x1="${pl}" x2="${W - pr}" y1="${y}" y2="${y}"/><text class="tick" x="${pl - 8}" y="${y + 5}" text-anchor="end">${(max * i / 4).toFixed(1).replace('.', ',')}</text>`; }
+      s += `<line class="base" x1="${pl}" x2="${W - pr}" y1="${pt + ih}" y2="${pt + ih}"/><path class="line" d="${path}" style="--len:2200"/>`;
+      xs.forEach((x, i) => { const dl = (.4 + i * 1).toFixed(1) + 's'; s += `<g><title>Nivel ${i + 1}: ${eff[i].toFixed(2)} pasaportes válidos por minuto</title><circle class="pt" cx="${x}" cy="${ys[i]}" r="9" style="animation-delay:${dl}"/><text class="ptv" x="${x}" y="${ys[i] - 20}" text-anchor="middle" style="animation-delay:${dl}">${eff[i].toFixed(1).replace('.', ',')}</text>
+        <text class="annb" x="${x}" y="${H - 38}" text-anchor="middle" style="animation-delay:${dl}">Nivel ${i + 1} · ${ann[i][0]}</text><text class="ann" x="${x}" y="${H - 16}" text-anchor="middle" style="animation-delay:${dl}">${ann[i][1]}</text></g>`; });
+      s += '</svg>';
+      sc.innerHTML = `<span class="kicker">3 · La curva de la burocracia</span><h2>Pasaportes válidos por minuto</h2>${s}
+        <div class="tiles"><div class="tile"><b>${fpp[0] != null ? fpp[0].toFixed(1).replace('.', ',') : '—'}</b><span>formularios por pasaporte aprobado en el nivel 2</span></div><div class="tile"><b>${fpp[1] != null ? fpp[1].toFixed(1).replace('.', ',') : '—'}</b><span>formularios por pasaporte aprobado en el nivel 3</span></div><div class="tile"><b>${eff[2] < eff[1] ? '−' + Math.round((1 - eff[2] / Math.max(eff[1], .001)) * 100) + '%' : '—'}</b><span>caída de eficiencia del nivel 2 al nivel 3</span></div></div>`;
+    },
+    wm(sc){
+      sc.innerHTML = `<span class="kicker">4 · Lo que vivieron</span><h2>La burocracia ideal y sus disfunciones</h2><div class="wm">
+        <div class="wm-col"><h3>Lo que Weber propuso</h3><span class="who">Max Weber · características del modelo burocrático</span>${WEBER.map((w, i) => `<div class="wm-item" style="animation-delay:${(.3 + i * .45).toFixed(2)}s">${esc(w[0])}<small>${esc(w[1])}</small></div>`).join('')}</div>
+        <div class="wm-col merton"><h3>Lo que Merton advirtió</h3><span class="who">Robert K. Merton · disfunciones de la burocracia</span>${MERTON.map((w, i) => `<div class="wm-item" style="animation-delay:${(3.8 + i * .45).toFixed(2)}s">${esc(w[0])}<small>${esc(w[1])}</small></div>`).join('')}</div></div>`;
+    },
+    podium(sc, A){
+      const rows = [...A.rows].sort((a, b) => b.pts - a.pts || a.o - b.o), top = rows.slice(0, 3), rest = rows.slice(3);
+      const maxP = Math.max(1, ...top.map(x => x.pts));
+      const order = [top[1], top[0], top[2]], place = [2, 1, 3], delays = [1.2, 2.2, .3];
+      sc.innerHTML = `<span class="kicker">5 · Resultado oficial</span><h2>Oficina ganadora: ${esc(oName(top[0].o, A.m))}</h2>
+        <div class="podium">${order.map((x, i) => x ? `<div class="pod"><div class="nm">${esc(oName(x.o, A.m))}</div><div class="blk" style="--oc:${oColor(x.o)}; height:${Math.max(26, (x.pts / maxP) * 100 * (place[i] === 1 ? 1 : .86))}%; animation-delay:${delays[i]}s"><b>${place[i]}</b><span>${x.pts} pts</span></div></div>` : '<div></div>').join('')}</div>
+        ${rest.length ? `<div class="rest">${rest.map((x, i) => `<span style="--oc:${oColor(x.o)}">${i + 4}. ${esc(oName(x.o, A.m))} · ${x.pts} pts</span>`).join('')}</div>` : ''}
+        ${A.m && A.m.burocrata ? `<div class="bda"><span class="label">Premio especial</span><b>Burócrata del año</b>${esc(A.m.burocrata)}</div>` : ''}`;
+      const t = setTimeout(() => { Sound.fanfare(); cleanups.push(confetti(host)); }, 2900); cleanups.push(() => clearTimeout(t));
+    },
+  };
+  $('[data-prev]', host).onclick = () => show(idx - 1);
+  $('[data-next]', host).onclick = () => show(idx + 1);
+  $('[data-pause]', host).onclick = e => { paused = !paused; e.target.textContent = paused ? 'Reanudar' : 'Pausar'; clearTimeout(timer); if (!paused && SCENES[idx].dur) timer = setTimeout(() => show(idx + 1), SCENES[idx].dur * 1000); };
+  const close = $('[data-close]', host); if (close) close.onclick = () => { api.destroy(); opts.onClose && opts.onClose(); };
+  const onKey = e => { if (e.target.closest && e.target.closest('input,textarea,select')) return; if (e.key === 'ArrowRight') show(idx + 1); else if (e.key === 'ArrowLeft') show(idx - 1); else if (e.key === 'Escape' && opts.fixed){ api.destroy(); opts.onClose && opts.onClose(); } };
+  document.addEventListener('keydown', onKey);
+  const api = { destroy(){ clean(); clearTimeout(timer); document.removeEventListener('keydown', onKey); if (opts.fixed) host.remove(); else host.innerHTML = ''; } };
+  show(0);
+  return api;
+}
+
+/* datos de ejemplo para ensayar el informe (no se guardan) */
+function sampleData(){
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const t0 = now() - 40 * 60000, tramites = [], pen = [], ans = [];
+  const r1 = [15, 12, 17, 10, 13], r2 = [7, 6, 8, 5, 6], r3 = [1, 0, 2, 0, 1];
+  for (let o = 0; o < 5; o++){
+    for (let i = 0; i < r1[o]; i++) tramites.push({ office: o, round: 1, kind: 'tap', status: 'aprobado', createdAt: t0 });
+    for (let i = 0; i < r2[o] + 2; i++){ const c = t0 + 6 * 60000 + i * 50000; const ok = i < r2[o]; tramites.push({ office: o, round: 2, kind: 'form', status: ok ? 'aprobado' : 'devuelto', jefeAt: c + 30000, createdAt: c, doneAt: c + (ok ? 70000 : 30000) }); }
+    for (let i = 0; i < r3[o] + 3; i++){ const c = t0 + 15 * 60000 + i * 40000; const ok = i < r3[o]; tramites.push({ office: o, round: 3, kind: 'form', status: ok ? 'aprobado' : (i % 2 ? 'anulado' : 'radicado'), jefeAt: ok ? c + 90000 : 0, dirAt: ok ? c + 110000 : 0, createdAt: c, doneAt: ok ? c + 140000 : (i % 2 ? c + 80000 : 0) }); }
+    for (let i = 0; i < [2, 4, 1, 3, 2][o]; i++) pen.push({ office: o, type: Object.keys(PEN)[i % 4], round: 2, at: t0 });
+    QUIZ.forEach((Q, q) => { if (rnd() < .75) ans.push({ office: o, q, opt: rnd() < .78 ? Q.ok : (Q.ok + 1) % 4, ms: 3000 + rnd() * 15000 }); });
+  }
+  const main = { names: names(), qc: [3, 2, 4, 2, 3], burocrata: S.main && S.main.burocrata ? S.main.burocrata : 'Archivista de la Secretaría de Asuntos Pendientes', durs: {}, roundEndAt: { 1: t0 + 5 * 60000, 2: t0 + 14 * 60000, 3: t0 + 20 * 60000 } };
+  return { main, tramites, pen, ans, aj: [] };
+}
+
+/* ---------- arranque ---------- */
+$('#brand').innerHTML = `${sealSVG('sb')}<div><b>Burocracia S.A.</b><small>Ministerio de Trámites</small></div>`;
+$('#switch-role').onclick = () => setRole({ role: 'home' });
+setInterval(() => {
+  cur && cur.tick && cur.tick();
+  $$('[data-timer]').forEach(el => { if (el.closest('#m-round')) return; if (S.main && ROUNDS[S.main.round].dur) el.textContent = fmtClock(clock().rem); });
+  $$('[data-turno]').forEach(el => el.textContent = turnoActual());
+  const mt = $('#maint'), m = S.main, phoneRole = ['dir', 'jefe', 'aud'].includes(role.role);
+  const on = !!(m && phoneRole && m.maintUntil > now());
+  if (mt.hidden === on) mt.hidden = !on;
+  if (on) $('#maint-s').textContent = Math.ceil((m.maintUntil - now()) / 1000);
+}, 250);
+
+(async () => {
+  mountView();
+  await store.init();
+  renderMode();
+  store.watch('game', a => { const m = a.find(d => d.id === 'main') || null; S.main = m; S.loaded = true; subscribeSession(m ? m.sid : null); onData('all'); });
+})();
+})();
+</script>
+
+</body></html>
